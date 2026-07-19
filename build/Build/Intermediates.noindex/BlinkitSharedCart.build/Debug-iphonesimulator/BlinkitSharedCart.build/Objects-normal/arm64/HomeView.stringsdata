@@ -1,0 +1,56 @@
+{
+  "source": "/Users/kindrasaab/Documents/BlinkitSharedCart/BlinkitSharedCart/Features/Home/HomeView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "11 minutes",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 44
+        }
+      },
+      {
+        "comment": "",
+        "key": "Zipp in",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 41
+        }
+      },
+      {
+        "comment": "",
+        "key": "Home · Chhatarpur Farms, DLF",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 48
+        }
+      },
+      {
+        "comment": "",
+        "key": "Who are you on this phone?",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 86
+        }
+      },
+      {
+        "comment": "",
+        "key": "Jatin (host)",
+        "location": {
+          "startingColumn": 23,
+          "startingLine": 88
+        }
+      },
+      {
+        "comment": "",
+        "key": "₹0",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 108
+        }
+      }
+    ]
+  },
+  "version": 1
+}

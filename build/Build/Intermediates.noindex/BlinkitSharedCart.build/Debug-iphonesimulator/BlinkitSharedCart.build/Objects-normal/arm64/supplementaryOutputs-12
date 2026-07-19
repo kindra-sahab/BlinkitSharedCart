@@ -1,0 +1,30 @@
+{
+  "/Users/kindrasaab/Documents/BlinkitSharedCart/BlinkitSharedCart/BlinkitSharedCartApp.swift" : {
+    "const-values" : "/Users/kindrasaab/Documents/BlinkitSharedCart/build/Build/Intermediates.noindex/BlinkitSharedCart.build/Debug-iphonesimulator/BlinkitSharedCart.build/Objects-normal/arm64/BlinkitSharedCartApp.swiftconstvalues",
+    "dependencies" : "/Users/kindrasaab/Documents/BlinkitSharedCart/build/Build/Intermediates.noindex/BlinkitSharedCart.build/Debug-iphonesimulator/BlinkitSharedCart.build/Objects-normal/arm64/BlinkitSharedCartApp.d",
+    "diagnostics" : "/Users/kindrasaab/Documents/BlinkitSharedCart/build/Build/Intermediates.noindex/BlinkitSharedCart.build/Debug-iphonesimulator/BlinkitSharedCart.build/Objects-normal/arm64/BlinkitSharedCartApp.dia",
+    "object" : "/Users/kindrasaab/Documents/BlinkitSharedCart/build/Build/Intermediates.noindex/BlinkitSharedCart.build/Debug-iphonesimulator/BlinkitSharedCart.build/Objects-normal/arm64/BlinkitSharedCartApp.o",
+    "swift-dependencies" : "/Users/kindrasaab/Documents/BlinkitSharedCart/build/Build/Intermediates.noindex/BlinkitSharedCart.build/Debug-iphonesimulator/BlinkitSharedCart.build/Objects-normal/arm64/BlinkitSharedCartApp.swiftdeps"
+  },
+  "/Users/kindrasaab/Documents/BlinkitSharedCart/BlinkitSharedCart/ContentView.swift" : {
+    "const-values" : "/Users/kindrasaab/Documents/BlinkitSharedCart/build/Build/Intermediates.noindex/BlinkitSharedCart.build/Debug-iphonesimulator/BlinkitSharedCart.build/Objects-normal/arm64/ContentView.swiftconstvalues",
+    "dependencies" : "/Users/kindrasaab/Documents/BlinkitSharedCart/build/Build/Intermediates.noindex/BlinkitSharedCart.build/Debug-iphonesimulator/BlinkitSharedCart.build/Objects-normal/arm64/ContentView.d",
+    "diagnostics" : "/Users/kindrasaab/Documents/BlinkitSharedCart/build/Build/Intermediates.noindex/BlinkitSharedCart.build/Debug-iphonesimulator/BlinkitSharedCart.build/Objects-normal/arm64/ContentView.dia",
+    "object" : "/Users/kindrasaab/Documents/BlinkitSharedCart/build/Build/Intermediates.noindex/BlinkitSharedCart.build/Debug-iphonesimulator/BlinkitSharedCart.build/Objects-normal/arm64/ContentView.o",
+    "swift-dependencies" : "/Users/kindrasaab/Documents/BlinkitSharedCart/build/Build/Intermediates.noindex/BlinkitSharedCart.build/Debug-iphonesimulator/BlinkitSharedCart.build/Objects-normal/arm64/ContentView.swiftdeps"
+  },
+  "/Users/kindrasaab/Documents/BlinkitSharedCart/BlinkitSharedCart/Utilities/Haptics.swift" : {
+    "const-values" : "/Users/kindrasaab/Documents/BlinkitSharedCart/build/Build/Intermediates.noindex/BlinkitSharedCart.build/Debug-iphonesimulator/BlinkitSharedCart.build/Objects-normal/arm64/Haptics.swiftconstvalues",
+    "dependencies" : "/Users/kindrasaab/Documents/BlinkitSharedCart/build/Build/Intermediates.noindex/BlinkitSharedCart.build/Debug-iphonesimulator/BlinkitSharedCart.build/Objects-normal/arm64/Haptics.d",
+    "diagnostics" : "/Users/kindrasaab/Documents/BlinkitSharedCart/build/Build/Intermediates.noindex/BlinkitSharedCart.build/Debug-iphonesimulator/BlinkitSharedCart.build/Objects-normal/arm64/Haptics.dia",
+    "object" : "/Users/kindrasaab/Documents/BlinkitSharedCart/build/Build/Intermediates.noindex/BlinkitSharedCart.build/Debug-iphonesimulator/BlinkitSharedCart.build/Objects-normal/arm64/Haptics.o",
+    "swift-dependencies" : "/Users/kindrasaab/Documents/BlinkitSharedCart/build/Build/Intermediates.noindex/BlinkitSharedCart.build/Debug-iphonesimulator/BlinkitSharedCart.build/Objects-normal/arm64/Haptics.swiftdeps"
+  },
+  "/Users/kindrasaab/Documents/BlinkitSharedCart/build/Build/Intermediates.noindex/BlinkitSharedCart.build/Debug-iphonesimulator/BlinkitSharedCart.build/DerivedSources/GeneratedAssetSymbols.swift" : {
+    "const-values" : "/Users/kindrasaab/Documents/BlinkitSharedCart/build/Build/Intermediates.noindex/BlinkitSharedCart.build/Debug-iphonesimulator/BlinkitSharedCart.build/Objects-normal/arm64/GeneratedAssetSymbols.swiftconstvalues",
+    "dependencies" : "/Users/kindrasaab/Documents/BlinkitSharedCart/build/Build/Intermediates.noindex/BlinkitSharedCart.build/Debug-iphonesimulator/BlinkitSharedCart.build/Objects-normal/arm64/GeneratedAssetSymbols.d",
+    "diagnostics" : "/Users/kindrasaab/Documents/BlinkitSharedCart/build/Build/Intermediates.noindex/BlinkitSharedCart.build/Debug-iphonesimulator/BlinkitSharedCart.build/Objects-normal/arm64/GeneratedAssetSymbols.dia",
+    "object" : "/Users/kindrasaab/Documents/BlinkitSharedCart/build/Build/Intermediates.noindex/BlinkitSharedCart.build/Debug-iphonesimulator/BlinkitSharedCart.build/Objects-normal/arm64/GeneratedAssetSymbols.o",
+    "swift-dependencies" : "/Users/kindrasaab/Documents/BlinkitSharedCart/build/Build/Intermediates.noindex/BlinkitSharedCart.build/Debug-iphonesimulator/BlinkitSharedCart.build/Objects-normal/arm64/GeneratedAssetSymbols.swiftdeps"
+  }
+}

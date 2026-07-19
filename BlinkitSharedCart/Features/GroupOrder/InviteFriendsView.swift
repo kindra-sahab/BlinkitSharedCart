@@ -18,15 +18,8 @@ struct InviteFriendsView: View {
             ScrollView(showsIndicators: false) {
                 VStack(spacing: 18) {
                     header
-                    VStack(spacing: 10) {
-                        ForEach(roster) { friend in
-                            FriendRow(friend: friend, isSelected: selected.contains(friend.id)) {
-                                toggle(friend)
-                            }
-                        }
-                    }
-                    .padding(.horizontal, 16)
-
+                    nearbyLiveCard
+                    demoFriendsSection
                     shareLinkRow
                     Color.clear.frame(height: 100)
                 }
@@ -40,7 +33,6 @@ struct InviteFriendsView: View {
                     Button("Cancel") { dismiss() }.foregroundStyle(Palette.inkSecondary)
                 }
             }
-            .safeAreaInset(edge: .bottom) { startBar }
         }
     }
 
@@ -65,6 +57,92 @@ struct InviteFriendsView: View {
         .padding(.top, 8)
     }
 
+    // MARK: Live (real two-phone) section
+
+    private var nearbyLiveCard: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            HStack(spacing: 8) {
+                Image(systemName: "dot.radiowaves.left.and.right")
+                    .foregroundStyle(.white)
+                Text("LIVE · NEARBY DEVICES").tracking(1)
+                    .font(.system(size: 11, weight: .heavy, design: .rounded))
+                    .foregroundStyle(.white.opacity(0.9))
+                Spacer()
+                connectionPill
+            }
+
+            Text(app.multipeer.isConnected
+                 ? "\(app.multipeer.connectedCount) phone\(app.multipeer.connectedCount == 1 ? "" : "s") connected nearby. Start now — they'll get the invite instantly."
+                 : "Start anytime. Friends get the invite the moment they open Zipp nearby (same WiFi / Bluetooth on).")
+                .font(.system(size: 13, weight: .medium, design: .rounded))
+                .foregroundStyle(.white.opacity(0.95))
+                .fixedSize(horizontal: false, vertical: true)
+
+            Button {
+                app.startLiveGroupOrder()
+            } label: {
+                HStack {
+                    Image(systemName: "paperplane.fill")
+                    Text("Start Live Group Order & Notify")
+                    Spacer()
+                    Image(systemName: "arrow.right")
+                }
+                .font(.system(size: 14, weight: .heavy, design: .rounded))
+                .foregroundStyle(Palette.violet)
+                .padding(.horizontal, 14).frame(height: 46)
+                .background(Color.white, in: RoundedRectangle(cornerRadius: 12, style: .continuous))
+            }
+            .buttonStyle(.plain)
+        }
+        .padding(16)
+        .background(LinearGradient.group, in: RoundedRectangle(cornerRadius: 20, style: .continuous))
+        .softShadow(18, y: 10, opacity: 0.2)
+        .padding(.horizontal, 16)
+    }
+
+    private var connectionPill: some View {
+        HStack(spacing: 5) {
+            Circle().fill(app.multipeer.isConnected ? Palette.success : Palette.accent)
+                .frame(width: 7, height: 7)
+            Text(app.multipeer.isConnected ? "Connected" : "Searching")
+                .font(.system(size: 11, weight: .bold, design: .rounded))
+                .foregroundStyle(.white)
+        }
+        .padding(.horizontal, 8).padding(.vertical, 4)
+        .background(.white.opacity(0.15), in: Capsule())
+    }
+
+    private var demoFriendsSection: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            HStack {
+                Text("Or simulate with demo friends")
+                    .font(.system(size: 13, weight: .bold, design: .rounded))
+                    .foregroundStyle(Palette.inkSecondary)
+                Spacer()
+                Text("single device")
+                    .font(.system(size: 10, weight: .bold, design: .rounded))
+                    .foregroundStyle(Palette.inkTertiary)
+            }
+            ForEach(roster) { friend in
+                FriendRow(friend: friend, isSelected: selected.contains(friend.id)) {
+                    toggle(friend)
+                }
+            }
+            PrimaryButton(
+                title: "Start Simulated Group Order",
+                subtitle: selected.isEmpty ? "Select at least one demo friend" : "Invite \(selected.count) simulated friend\(selected.count == 1 ? "" : "s")",
+                icon: "person.2.fill",
+                gradient: .brand,
+                enabled: !selected.isEmpty
+            ) {
+                let friends = roster.filter { selected.contains($0.id) }
+                app.startGroupOrder(inviting: friends)
+            }
+            .padding(.top, 4)
+        }
+        .padding(.horizontal, 16)
+    }
+
     private var shareLinkRow: some View {
         HStack(spacing: 12) {
             Image(systemName: "link").foregroundStyle(Palette.brandDark)
@@ -82,29 +160,6 @@ struct InviteFriendsView: View {
         .background(.white, in: RoundedRectangle(cornerRadius: 16))
         .overlay(RoundedRectangle(cornerRadius: 16).stroke(Palette.hairline, lineWidth: 1))
         .padding(.horizontal, 16)
-    }
-
-    private var startBar: some View {
-        VStack(spacing: 8) {
-            if !selected.isEmpty {
-                Text("Sending push to \(selected.count) \(selected.count == 1 ? "friend" : "friends")")
-                    .font(.system(size: 12, weight: .medium, design: .rounded))
-                    .foregroundStyle(Palette.inkSecondary)
-            }
-            PrimaryButton(
-                title: "Start Group Order",
-                subtitle: selected.isEmpty ? "Select at least one friend" : "Invite \(selected.count) & open shared cart",
-                icon: "paperplane.fill",
-                gradient: .group,
-                enabled: !selected.isEmpty
-            ) {
-                let friends = roster.filter { selected.contains($0.id) }
-                app.startGroupOrder(inviting: friends)
-            }
-        }
-        .padding(.horizontal, 16).padding(.vertical, 12)
-        .background(.white)
-        .overlay(Rectangle().fill(Palette.hairline).frame(height: 1), alignment: .top)
     }
 
     private func toggle(_ friend: Participant) {

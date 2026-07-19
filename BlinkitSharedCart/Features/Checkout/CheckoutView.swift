@@ -11,14 +11,14 @@ struct CheckoutView: View {
     @State private var payMethod = "UPI"
 
     private var isGroup: Bool { app.isInGroup }
-    private var bill: Bill { app.session?.bill ?? app.personalBill }
+    private var bill: Bill { app.realtime.session?.bill ?? app.personalBill }
 
     var body: some View {
         NavigationStack {
             ScrollView(showsIndicators: false) {
                 VStack(spacing: 14) {
                     deliveryCard
-                    if isGroup, let s = app.session { groupSummary(s) }
+                    if isGroup, let s = app.realtime.session { groupSummary(s) }
                     BillDetailsCard(bill: bill).padding(.horizontal, 16)
                     paymentCard
                     Color.clear.frame(height: 120)

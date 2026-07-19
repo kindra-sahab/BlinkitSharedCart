@@ -6,7 +6,7 @@
 import SwiftUI
 
 /// A person in a group order (the host or a friend/roommate).
-struct Participant: Identifiable, Hashable {
+struct Participant: Identifiable, Hashable, Codable {
     let id: String
     let name: String
     let avatarEmoji: String

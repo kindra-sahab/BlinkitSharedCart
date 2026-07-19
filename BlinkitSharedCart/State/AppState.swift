@@ -12,6 +12,14 @@ import Observation
 
 enum AppTab: Hashable { case home, categories, cart, orders }
 
+/// An incoming live (multipeer) invite awaiting Join / Ignore.
+struct LiveInvite: Identifiable, Equatable {
+    let id = UUID()
+    let hostName: String
+    let hostEmoji: String
+    let remaining: Double
+}
+
 @Observable
 @MainActor
 final class AppState {
@@ -40,13 +48,51 @@ final class AppState {
     var showSharedCart = false
     var showCheckout = false
     var showOrderConfirmed = false
+    var showSettlement = false
+
+    // MARK: Live (two-phone) group order over Multipeer
+    private(set) var multipeer: MultipeerService
+    /// True when the active session is a real multi-device one (vs. simulated friends).
+    private(set) var isLiveSession = false
+    /// Incoming live invite awaiting Join / Ignore on this device.
+    var liveInvite: LiveInvite?
 
     private var trackingTask: Task<Void, Never>?
     private var hostAutoPlaceTask: Task<Void, Never>?
 
     init() {
+        multipeer = MultipeerService(displayName: Participant.me.name)
         wireRealtime()
+        wireMultipeer()
         seedDemoInbox()
+        LocalNotifier.shared.configure()
+        LocalNotifier.shared.onJoinTapped = { [weak self] in self?.acceptLiveInvite() }
+        multipeer.start()
+
+        #if DEBUG
+        if ProcessInfo.processInfo.environment["AUTODEMO"] == "1" {
+            Task { [weak self] in
+                try? await Task.sleep(for: .seconds(1))
+                guard let self, let milk = MockCatalog.product("p_milk") else { return }
+                self.addToPersonalCart(milk)
+                self.startGroupOrder(inviting: [.rahul, .aman])
+            }
+        }
+        #endif
+    }
+
+    // MARK: - Identity (each phone picks who they are)
+
+    func setIdentity(_ participant: Participant) {
+        guard participant.id != currentUser.id else { return }
+        var p = participant
+        p.isHost = (participant.id == Participant.me.id)   // only the owner identity hosts
+        currentUser = p
+        // Restart the transport under the new display name.
+        multipeer.stop()
+        multipeer = MultipeerService(displayName: p.name)
+        wireMultipeer()
+        multipeer.start()
     }
 
     private func wireRealtime() {
@@ -68,6 +114,167 @@ final class AppState {
                 body: "Your group crossed \(rupees(Pricing.freeDeliveryThreshold)). Delivery is on us."
             ), banner: true)
         }
+    }
+
+    // MARK: - Multipeer wiring
+
+    private func wireMultipeer() {
+        multipeer.onReceive = { [weak self] message in self?.handleSync(message) }
+        multipeer.onPeersChanged = { [weak self] count in
+            // A phone just connected (e.g. the guest opened the app). If we're
+            // hosting a live order, (re)send the invite + snapshot so they get
+            // notified immediately — the host doesn't have to wait for them.
+            guard let self, self.isLiveSession, self.isHost, count > 0 else { return }
+            self.resendLiveInviteToPeers()
+        }
+    }
+
+    private func resendLiveInviteToPeers() {
+        guard isLiveSession, isHost, let s = session, let host = s.host else { return }
+        multipeer.send(.invite(host: host, remaining: s.bill.amountToFreeDelivery, sessionID: s.id))
+        multipeer.send(.state(s))
+    }
+
+    private func handleSync(_ message: SyncMessage) {
+        switch message {
+        case .invite(let host, let remaining, _):
+            guard !isHost else { return }
+            // Already part of this order, or already showing the invite? Ignore re-sends.
+            if isLiveSession, let s = session, s.participant(currentUser.id) != nil { return }
+            if liveInvite != nil { return }
+            liveInvite = LiveInvite(hostName: host.name, hostEmoji: host.avatarEmoji, remaining: remaining)
+            LocalNotifier.shared.postGroupInvite(hostName: host.name, remaining: remaining)
+            pushNotification(.init(
+                kind: .groupInvite,
+                title: "\(host.name) is placing a Zipp order",
+                body: remaining > 0
+                    ? "Only \(rupees(remaining)) more is needed to unlock free delivery. Want to add something?"
+                    : "You've been invited to a shared group cart.",
+                inviteSessionID: "live"), banner: true)
+
+        case .joinRequest(let participant):
+            guard isLiveSession, isHost else { return }
+            realtime.join(participant, autoContribute: false)
+            broadcastStateIfHost()
+
+        case .state(let session):
+            isLiveSession = true
+            realtime.applyRemoteState(session)
+
+        case .addItemIntent(let productID, let by):
+            guard isLiveSession, isHost, let product = MockCatalog.product(productID) else { return }
+            realtime.addItem(product, by: by)
+            broadcastStateIfHost()
+
+        case .changeProductIntent(let productID, let delta, let by):
+            guard isLiveSession, isHost, let product = MockCatalog.product(productID) else { return }
+            realtime.changeProductQuantity(product, by: by, delta: delta)
+            broadcastStateIfHost()
+
+        case .changeQtyIntent(let itemID, let delta, let by):
+            guard isLiveSession, isHost else { return }
+            realtime.changeQuantity(itemID: itemID, delta: delta, by: by)
+            broadcastStateIfHost()
+
+        case .browsingIntent(let pid, let browsing):
+            guard isLiveSession, isHost else { return }
+            realtime.setBrowsing(pid, browsing)
+            broadcastStateIfHost()
+
+        case .orderPlaced(let order):
+            guard !isHost else { return }
+            realtime.markPlaced()
+            activeOrder = order
+            showSharedCart = false
+            showOrderConfirmed = true
+            pushNotification(.init(kind: .orderPlaced, title: "Order Confirmed",
+                body: "\(order.placedByName) placed the group order · \(rupees(order.bill.total))."), banner: true)
+
+        case .stageUpdate(let orderID, let stage):
+            guard activeOrder?.id == orderID else { return }
+            withAnimation(.spring) { activeOrder?.stage = stage }
+            if stage == .delivered, let done = activeOrder { pastOrders.insert(done, at: 0) }
+            pushNotification(.init(kind: stage == .delivered ? .orderPlaced : .tracking,
+                title: stage.title, body: stage.subtitle),
+                banner: stage == .outForDelivery || stage == .delivered)
+
+        case .returnUpdate(let req):
+            if let idx = returns.firstIndex(where: { $0.id == req.id }) { returns[idx] = req }
+            else { returns.insert(req, at: 0) }
+
+        case .endSession:
+            guard !isHost else { return }
+            realtime.endSession()
+            isLiveSession = false
+            showSharedCart = false
+        }
+    }
+
+    private func broadcastStateIfHost() {
+        guard isLiveSession, isHost, let s = session else { return }
+        multipeer.send(.state(s))
+    }
+
+    // MARK: - Live group order (host)
+
+    /// Host starts a real, cross-device group order and invites nearby phones.
+    func startLiveGroupOrder() {
+        currentUser.isHost = true
+        var host = currentUser; host.isHost = true
+        let seeded = personalItems.map {
+            CartItem.group($0.product, quantity: $0.quantity, addedBy: host)
+        }
+        isLiveSession = true
+        realtime.createSession(host: host, seededWith: seeded)
+        personalItems.removeAll()
+        let remaining = realtime.session?.bill.amountToFreeDelivery ?? 0
+        multipeer.send(.invite(host: host, remaining: remaining, sessionID: realtime.session?.id ?? ""))
+        broadcastStateIfHost()
+        showInviteSheet = false
+        showSharedCart = true
+    }
+
+    // MARK: - Live group order (guest)
+
+    var canJoinLive: Bool { currentUser.id != Participant.me.id }   // must pick a non-host identity
+
+    func acceptLiveInvite() {
+        guard liveInvite != nil else { return }
+        isLiveSession = true
+        liveInvite = nil
+        multipeer.send(.joinRequest(currentUser))
+        showSharedCart = true
+        selectedTab = .cart
+    }
+
+    func ignoreLiveInvite() { liveInvite = nil }
+
+    // MARK: - Live-aware cart mutations
+
+    func groupChangeQuantity(itemID: String, delta: Int) {
+        if isLiveSession && !isHost {
+            realtime.changeQuantity(itemID: itemID, delta: delta, by: currentUser)   // optimistic
+            multipeer.send(.changeQtyIntent(itemID: itemID, delta: delta, by: currentUser))
+            return
+        }
+        realtime.changeQuantity(itemID: itemID, delta: delta, by: currentUser)
+        broadcastStateIfHost()
+    }
+
+    func setGroupBrowsing(_ browsing: Bool) {
+        guard isInGroup else { return }
+        if isLiveSession && !isHost {
+            multipeer.send(.browsingIntent(participantID: currentUser.id, browsing: browsing)); return
+        }
+        realtime.setBrowsing(currentUser.id, browsing)
+        broadcastStateIfHost()
+    }
+
+    // MARK: - Settlement
+
+    var settlement: Settlement? {
+        guard let o = activeOrder, o.isGroupOrder else { return nil }
+        return Settlement(order: o)
     }
 
     // MARK: - Session role
@@ -109,7 +316,7 @@ final class AppState {
         currentUser = .me
         // Seed the shared cart with whatever the host already had.
         let seeded = personalItems.map {
-            CartItem(product: $0.product, quantity: $0.quantity, addedBy: currentUser, addedAt: .now)
+            CartItem.group($0.product, quantity: $0.quantity, addedBy: currentUser)
         }
         realtime.createSession(host: currentUser, seededWith: seeded)
         personalItems.removeAll()   // moved into the shared cart
@@ -130,7 +337,19 @@ final class AppState {
 
     /// Current user (host or guest) adds an item to the live shared cart.
     func addToGroup(_ product: Product) {
-        realtime.addItem(product, by: currentUser)
+        groupChangeProduct(product, delta: 1)
+    }
+
+    /// Product-keyed group mutation. Guests apply optimistically for instant
+    /// feedback, then send an intent; the host's broadcast reconciles.
+    func groupChangeProduct(_ product: Product, delta: Int) {
+        if isLiveSession && !isHost {
+            realtime.changeProductQuantity(product, by: currentUser, delta: delta)   // optimistic
+            multipeer.send(.changeProductIntent(productID: product.id, delta: delta, by: currentUser))
+            return
+        }
+        realtime.changeProductQuantity(product, by: currentUser, delta: delta)
+        broadcastStateIfHost()
     }
 
     func groupQuantity(of product: Product) -> Int {
@@ -152,13 +371,7 @@ final class AppState {
 
     func contextChange(_ product: Product, delta: Int) {
         if isInGroup {
-            if let line = realtime.session?.items.first(where: {
-                $0.product.id == product.id && $0.addedByID == currentUser.id
-            }) {
-                realtime.changeQuantity(itemID: line.id, delta: delta, by: currentUser)
-            } else if delta > 0 {
-                addToGroup(product)
-            }
+            groupChangeProduct(product, delta: delta)
         } else {
             changePersonalQuantity(product, delta: delta)
         }
@@ -172,8 +385,8 @@ final class AppState {
         var hostOnline = host; hostOnline.isHost = true; hostOnline.isOnline = true
         // Seed with the host's existing items.
         let seed = [
-            CartItem(product: MockCatalog.product("p_milk")!, addedBy: hostOnline),
-            CartItem(product: MockCatalog.product("p_bread")!, addedBy: hostOnline),
+            CartItem.group(MockCatalog.product("p_milk")!, addedBy: hostOnline),
+            CartItem.group(MockCatalog.product("p_bread")!, addedBy: hostOnline),
         ]
         realtime.createSession(host: hostOnline, seededWith: seed)
         // I join as myself.
@@ -237,6 +450,8 @@ final class AppState {
             title: "Order Confirmed",
             body: "\(host.name) placed the group order · \(rupees(s.bill.total)). Arriving in ~11 mins."
         ), banner: true)
+        // Tell every guest phone the order is placed.
+        if isLiveSession { multipeer.send(.orderPlaced(order)) }
         startTrackingSimulation()
     }
 
@@ -276,8 +491,9 @@ final class AppState {
             let stages = OrderStage.allCases
             for stage in stages.dropFirst() {   // start already at .preparing
                 try? await Task.sleep(for: .seconds(6))
-                guard let self, self.activeOrder != nil else { return }
+                guard let self, let orderID = self.activeOrder?.id else { return }
                 withAnimation(.spring) { self.activeOrder?.stage = stage }
+                if self.isLiveSession { self.multipeer.send(.stageUpdate(orderID: orderID, stage: stage)) }
                 self.pushNotification(.init(
                     kind: stage == .delivered ? .orderPlaced : .tracking,
                     title: stage.title,
@@ -308,6 +524,7 @@ final class AppState {
         pushNotification(.init(kind: .returnUpdate, title: "Return requested",
                                body: "\(item.product.name) · refund \(rupees(item.lineTotal)) is being processed."),
                          banner: true)
+        if isLiveSession { multipeer.send(.returnUpdate(req)) }
         advanceReturn(req.id)
     }
 
@@ -323,6 +540,7 @@ final class AppState {
                 try? await Task.sleep(for: .seconds(4))
                 guard let self, let idx = self.returns.firstIndex(where: { $0.id == id }) else { return }
                 withAnimation(.spring) { self.returns[idx].status = status }
+                if self.isLiveSession { self.multipeer.send(.returnUpdate(self.returns[idx])) }
             }
         }
     }

@@ -1,0 +1,40 @@
+{
+  "source": "/Users/kindrasaab/Documents/BlinkitSharedCart/BlinkitSharedCart/Components/MPDebugChip.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "peers %lld",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 24
+        }
+      },
+      {
+        "comment": "",
+        "key": "↑%lld %@",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 25
+        }
+      },
+      {
+        "comment": "",
+        "key": "↓%lld %@",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 26
+        }
+      },
+      {
+        "comment": "",
+        "key": "⚠️",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 28
+        }
+      }
+    ]
+  },
+  "version": 1
+}

@@ -1,0 +1,48 @@
+{
+  "source": "/Users/kindrasaab/Documents/BlinkitSharedCart/BlinkitSharedCart/Features/Checkout/OrderConfirmedView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Order Confirmed!",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 31
+        }
+      },
+      {
+        "comment": "",
+        "key": "%@ placed the group order for everyone 🎉",
+        "location": {
+          "startingColumn": 32,
+          "startingLine": 36
+        }
+      },
+      {
+        "comment": "",
+        "key": "Your order is on its way 🎉",
+        "location": {
+          "startingColumn": 32,
+          "startingLine": 37
+        }
+      },
+      {
+        "comment": "",
+        "key": "Back to Home",
+        "location": {
+          "startingColumn": 28,
+          "startingLine": 81
+        }
+      },
+      {
+        "comment": "",
+        "key": "Track Order",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 72
+        }
+      }
+    ]
+  },
+  "version": 1
+}

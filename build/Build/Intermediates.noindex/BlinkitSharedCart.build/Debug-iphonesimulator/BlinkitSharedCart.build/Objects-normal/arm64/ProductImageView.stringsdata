@@ -1,0 +1,16 @@
+{
+  "source": "/Users/kindrasaab/Documents/BlinkitSharedCart/BlinkitSharedCart/Components/ProductImageView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "%lld min",
+        "location": {
+          "startingColumn": 23,
+          "startingLine": 23
+        }
+      }
+    ]
+  },
+  "version": 1
+}

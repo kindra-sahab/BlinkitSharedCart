@@ -38,9 +38,16 @@ struct RootTabView: View {
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
 
+            // Live sync diagnostics (helps confirm the two phones are exchanging data)
+            VStack {
+                MPDebugChip()
+                Spacer()
+            }
+            .padding(.top, 4)
+
             // Floating Live Activity (host) + tab bar
             VStack(spacing: 10) {
-                if app.isInGroup && !app.showSharedCart, let s = app.session, s.status != .placed {
+                if app.isInGroup && !app.showSharedCart, let s = app.realtime.session, s.status != .placed {
                     LiveActivityPill(session: s, remaining: app.realtime.timeRemaining)
                         .padding(.horizontal, 16)
                         .transition(.move(edge: .bottom).combined(with: .opacity))
@@ -69,6 +76,12 @@ struct RootTabView: View {
         }
         .fullScreenCover(isPresented: $app.showOrderConfirmed) {
             OrderConfirmedView()
+        }
+        .sheet(isPresented: $app.showSettlement) {
+            SettlementView()
+        }
+        .sheet(item: $app.liveInvite) { invite in
+            LiveInviteView(invite: invite)
         }
     }
 }

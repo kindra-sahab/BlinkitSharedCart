@@ -1,0 +1,128 @@
+{
+  "source": "/Users/kindrasaab/Documents/BlinkitSharedCart/BlinkitSharedCart/Features/Settlement/SettlementView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Split & Settle Up",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 25
+        }
+      },
+      {
+        "comment": "",
+        "key": "No group order to settle",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 21
+        }
+      },
+      {
+        "comment": "",
+        "key": "Done",
+        "location": {
+          "startingColumn": 28,
+          "startingLine": 29
+        }
+      },
+      {
+        "comment": "",
+        "key": "Collect from friends",
+        "location": {
+          "startingColumn": 36,
+          "startingLine": 45
+        }
+      },
+      {
+        "comment": "",
+        "key": "Everyone's share",
+        "location": {
+          "startingColumn": 61,
+          "startingLine": 45
+        }
+      },
+      {
+        "comment": "",
+        "key": "You paid the full bill",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 65
+        }
+      },
+      {
+        "comment": "",
+        "key": "is owed to you by %lld %@",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 69
+        }
+      },
+      {
+        "comment": "",
+        "key": "You owe %@",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 72
+        }
+      },
+      {
+        "comment": "",
+        "key": "for your items + your share of fees",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 76
+        }
+      },
+      {
+        "comment": "",
+        "key": "Pay %@ via UPI",
+        "location": {
+          "startingColumn": 27,
+          "startingLine": 83
+        }
+      },
+      {
+        "comment": "",
+        "key": "Each person pays for their own items plus an equal split of the %@ fees. Free delivery means no delivery fee to split 🎉",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 103
+        }
+      },
+      {
+        "comment": "",
+        "key": "Items %@ + fees %@",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 135
+        }
+      },
+      {
+        "comment": "",
+        "key": "Host · paid",
+        "location": {
+          "startingColumn": 31,
+          "startingLine": 128
+        }
+      },
+      {
+        "comment": "",
+        "key": "settled",
+        "location": {
+          "startingColumn": 31,
+          "startingLine": 142
+        }
+      },
+      {
+        "comment": "",
+        "key": "owes host",
+        "location": {
+          "startingColumn": 43,
+          "startingLine": 142
+        }
+      }
+    ]
+  },
+  "version": 1
+}

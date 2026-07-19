@@ -1,0 +1,48 @@
+{
+  "source": "/Users/kindrasaab/Documents/BlinkitSharedCart/BlinkitSharedCart/Features/GroupOrder/LiveInviteView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "%@ is placing a Zipp order",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 32
+        }
+      },
+      {
+        "comment": "",
+        "key": "Only %@ more is needed to unlock FREE delivery. Want to add something?",
+        "location": {
+          "startingColumn": 28,
+          "startingLine": 37
+        }
+      },
+      {
+        "comment": "",
+        "key": "You're invited to a shared group cart. Add whatever you need!",
+        "location": {
+          "startingColumn": 28,
+          "startingLine": 38
+        }
+      },
+      {
+        "comment": "",
+        "key": "Ignore",
+        "location": {
+          "startingColumn": 28,
+          "startingLine": 57
+        }
+      },
+      {
+        "comment": "",
+        "key": "First, who are you on this phone?",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 84
+        }
+      }
+    ]
+  },
+  "version": 1
+}

@@ -1,0 +1,32 @@
+{
+  "source": "/Users/kindrasaab/Documents/BlinkitSharedCart/BlinkitSharedCart/Components/SharedUI.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Added by you",
+        "location": {
+          "startingColumn": 25,
+          "startingLine": 75
+        }
+      },
+      {
+        "comment": "",
+        "key": "Added by %@",
+        "location": {
+          "startingColumn": 42,
+          "startingLine": 75
+        }
+      },
+      {
+        "comment": "",
+        "key": "%@ is browsing…",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 101
+        }
+      }
+    ]
+  },
+  "version": 1
+}

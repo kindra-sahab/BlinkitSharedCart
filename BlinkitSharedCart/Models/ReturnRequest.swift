@@ -5,7 +5,7 @@
 
 import SwiftUI
 
-enum ReturnStatus: String, CaseIterable {
+enum ReturnStatus: String, CaseIterable, Codable {
     case requested = "Requested"
     case approved = "Approved"
     case pickedUp = "Picked Up"
@@ -30,7 +30,7 @@ enum ReturnStatus: String, CaseIterable {
     }
 }
 
-struct ReturnRequest: Identifiable {
+struct ReturnRequest: Identifiable, Codable {
     let id: String
     let item: CartItem
     let reason: String

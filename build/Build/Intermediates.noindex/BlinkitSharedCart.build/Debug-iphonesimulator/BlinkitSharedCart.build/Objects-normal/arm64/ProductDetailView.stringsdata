@@ -1,0 +1,48 @@
+{
+  "source": "/Users/kindrasaab/Documents/BlinkitSharedCart/BlinkitSharedCart/Features/Catalog/ProductDetailView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Product",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 81
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld MINS",
+        "location": {
+          "startingColumn": 27,
+          "startingLine": 24
+        }
+      },
+      {
+        "comment": "",
+        "key": "Highlights",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 54
+        }
+      },
+      {
+        "comment": "",
+        "key": "This will be added to your group cart",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 68
+        }
+      },
+      {
+        "comment": "",
+        "key": "Inclusive of all taxes",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 92
+        }
+      }
+    ]
+  },
+  "version": 1
+}

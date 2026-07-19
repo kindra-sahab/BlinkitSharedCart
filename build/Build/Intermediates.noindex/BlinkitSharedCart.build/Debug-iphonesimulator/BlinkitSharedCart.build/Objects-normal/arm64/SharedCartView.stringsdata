@@ -1,0 +1,104 @@
+{
+  "source": "/Users/kindrasaab/Documents/BlinkitSharedCart/BlinkitSharedCart/Features/GroupOrder/SharedCartView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Group Order",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 85
+        }
+      },
+      {
+        "comment": "",
+        "key": "Code %@",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 87
+        }
+      },
+      {
+        "comment": "",
+        "key": "You're host",
+        "location": {
+          "startingColumn": 27,
+          "startingLine": 100
+        }
+      },
+      {
+        "comment": "",
+        "key": "Your items",
+        "location": {
+          "startingColumn": 63,
+          "startingLine": 142
+        }
+      },
+      {
+        "comment": "",
+        "key": "%@'s items",
+        "location": {
+          "startingColumn": 78,
+          "startingLine": 142
+        }
+      },
+      {
+        "comment": "",
+        "key": "Add more items",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 177
+        }
+      },
+      {
+        "comment": "",
+        "key": "This group order expired",
+        "location": {
+          "startingColumn": 23,
+          "startingLine": 195
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld items · %lld live",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 204
+        }
+      },
+      {
+        "comment": "",
+        "key": "Waiting for %@ to place order…",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 235
+        }
+      },
+      {
+        "comment": "",
+        "key": "Your share: %@ · You'll be notified when it's placed",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 238
+        }
+      },
+      {
+        "comment": "",
+        "key": "Live activity",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 259
+        }
+      },
+      {
+        "comment": "",
+        "key": " %@",
+        "location": {
+          "startingColumn": 29,
+          "startingLine": 269
+        }
+      }
+    ]
+  },
+  "version": 1
+}

@@ -11,11 +11,15 @@ import SwiftUI
 struct SharedCartView: View {
     @Environment(AppState.self) private var app
     @Environment(\.dismiss) private var dismiss
+    // Checkout must be presented from INSIDE this cover, otherwise a root-level
+    // sheet opens hidden behind the full-screen cover.
+    @State private var showGroupCheckout = false
+    @State private var path = NavigationPath()
 
     var body: some View {
-        NavigationStack {
+        NavigationStack(path: $path) {
             Group {
-                if let session = app.session {
+                if let session = app.realtime.session {
                     content(session)
                 } else {
                     ProgressView()
@@ -23,8 +27,16 @@ struct SharedCartView: View {
             }
             .background(Palette.background)
             .navigationDestination(for: Product.self) { ProductDetailView(product: $0) }
-            .navigationDestination(for: GroupBrowseRoute.self) { _ in GroupBrowseView() }
+            .navigationDestination(for: GroupBrowseRoute.self) { _ in GroupBrowseView(app: app) }
             .toolbar(.hidden, for: .navigationBar)
+            .sheet(isPresented: $showGroupCheckout) { CheckoutView() }
+            .onAppear {
+                #if DEBUG
+                if ProcessInfo.processInfo.environment["AUTODEMO"] == "1" && path.isEmpty {
+                    path.append(GroupBrowseRoute.browse)
+                }
+                #endif
+            }
         }
     }
 
@@ -92,6 +104,7 @@ struct SharedCartView: View {
                         .background(.white.opacity(0.2), in: Capsule())
                 }
             }
+            MPDebugChip()
         }
         .padding(16).padding(.top, 44)
         .background(LinearGradient.group)
@@ -146,8 +159,8 @@ struct SharedCartView: View {
                                 canEdit: editable,
                                 showAttribution: false,
                                 isMe: p.id == app.currentUser.id,
-                                onIncrement: { app.realtime.changeQuantity(itemID: item.id, delta: 1, by: app.currentUser) },
-                                onDecrement: { app.realtime.changeQuantity(itemID: item.id, delta: -1, by: app.currentUser) }
+                                onIncrement: { app.groupChangeQuantity(itemID: item.id, delta: 1) },
+                                onDecrement: { app.groupChangeQuantity(itemID: item.id, delta: -1) }
                             )
                         }
                     }
@@ -195,7 +208,7 @@ struct SharedCartView: View {
                     Spacer()
                     PrimaryButton(title: "Place Group Order", icon: "lock.fill",
                                   enabled: !session.items.isEmpty) {
-                        app.showCheckout = true
+                        showGroupCheckout = true
                     }
                     .frame(maxWidth: 220)
                 }

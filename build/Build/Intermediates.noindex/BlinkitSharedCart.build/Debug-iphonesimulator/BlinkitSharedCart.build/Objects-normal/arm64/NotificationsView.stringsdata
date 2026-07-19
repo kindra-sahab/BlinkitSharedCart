@@ -1,0 +1,56 @@
+{
+  "source": "/Users/kindrasaab/Documents/BlinkitSharedCart/BlinkitSharedCart/Features/Notifications/NotificationsView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Notifications",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 26
+        }
+      },
+      {
+        "comment": "",
+        "key": "Mark all read",
+        "location": {
+          "startingColumn": 24,
+          "startingLine": 30
+        }
+      },
+      {
+        "comment": "",
+        "key": "Ignored",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 71
+        }
+      },
+      {
+        "comment": "",
+        "key": "Tap Join to add items to Rahul's shared cart",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 56
+        }
+      },
+      {
+        "comment": "",
+        "key": "Ignore",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 82
+        }
+      },
+      {
+        "comment": "",
+        "key": "Join Order",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 93
+        }
+      }
+    ]
+  },
+  "version": 1
+}

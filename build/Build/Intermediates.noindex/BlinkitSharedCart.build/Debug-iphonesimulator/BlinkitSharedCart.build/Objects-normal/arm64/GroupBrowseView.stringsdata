@@ -1,0 +1,24 @@
+{
+  "source": "/Users/kindrasaab/Documents/BlinkitSharedCart/BlinkitSharedCart/Features/GroupOrder/GroupBrowseView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Add to group cart",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 81
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld items in group cart",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 88
+        }
+      }
+    ]
+  },
+  "version": 1
+}

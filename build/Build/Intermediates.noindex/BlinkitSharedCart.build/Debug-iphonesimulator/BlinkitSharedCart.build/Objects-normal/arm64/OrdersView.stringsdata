@@ -1,0 +1,64 @@
+{
+  "source": "/Users/kindrasaab/Documents/BlinkitSharedCart/BlinkitSharedCart/Features/Orders/OrdersView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "📦",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 51
+        }
+      },
+      {
+        "comment": "",
+        "key": "No orders yet",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 52
+        }
+      },
+      {
+        "comment": "",
+        "key": "Your live and past orders will show up here.",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 54
+        }
+      },
+      {
+        "comment": "",
+        "key": "Group",
+        "location": {
+          "startingColumn": 35,
+          "startingLine": 77
+        }
+      },
+      {
+        "comment": "",
+        "key": "+%lld",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 102
+        }
+      },
+      {
+        "comment": "",
+        "key": "Track →",
+        "location": {
+          "startingColumn": 33,
+          "startingLine": 106
+        }
+      },
+      {
+        "comment": "",
+        "key": "View / Return →",
+        "location": {
+          "startingColumn": 47,
+          "startingLine": 106
+        }
+      }
+    ]
+  },
+  "version": 1
+}

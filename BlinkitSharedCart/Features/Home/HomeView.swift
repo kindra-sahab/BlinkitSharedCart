@@ -54,6 +54,7 @@ struct HomeView: View {
                 }
                 Spacer()
                 HStack(spacing: 10) {
+                    identityButton
                     walletChip
                     NotificationBell()
                 }
@@ -76,6 +77,29 @@ struct HomeView: View {
                 .ignoresSafeArea(edges: .top)
         )
         .navigationDestination(for: SearchRoute.self) { _ in SearchView() }
+    }
+
+    /// Lets each phone declare who they are — the guest picks a non-host identity
+    /// so the two devices sync as different people during a live group order.
+    private var identityButton: some View {
+        Menu {
+            Text("Who are you on this phone?")
+            Button { app.setIdentity(.me) } label: {
+                Label("Jatin (host)", systemImage: app.currentUser.id == Participant.me.id ? "checkmark" : "person.crop.circle")
+            }
+            ForEach(Participant.friendRoster) { p in
+                Button { app.setIdentity(p) } label: {
+                    Label(p.name, systemImage: app.currentUser.id == p.id ? "checkmark" : "person.crop.circle")
+                }
+            }
+        } label: {
+            ZStack {
+                Circle().fill(.white)
+                Text(app.currentUser.avatarEmoji).font(.system(size: 17))
+            }
+            .frame(width: 34, height: 34)
+            .overlay(Circle().stroke(app.currentUser.color, lineWidth: 1.5))
+        }
     }
 
     private var walletChip: some View {

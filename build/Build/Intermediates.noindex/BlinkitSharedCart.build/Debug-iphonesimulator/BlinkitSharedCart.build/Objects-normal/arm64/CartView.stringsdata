@@ -1,0 +1,88 @@
+{
+  "source": "/Users/kindrasaab/Documents/BlinkitSharedCart/BlinkitSharedCart/Features/Cart/CartView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "TOTAL",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 71
+        }
+      },
+      {
+        "comment": "",
+        "key": "Cart too small for free delivery?",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 98
+        }
+      },
+      {
+        "comment": "",
+        "key": "Split it! Only %@ more unlocks FREE delivery for everyone.",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 101
+        }
+      },
+      {
+        "comment": "",
+        "key": "Invite others to join this order",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 111
+        }
+      },
+      {
+        "comment": "",
+        "key": "Bill Details",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 133
+        }
+      },
+      {
+        "comment": "",
+        "key": "To Pay",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 147
+        }
+      },
+      {
+        "comment": "",
+        "key": "🛒",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 182
+        }
+      },
+      {
+        "comment": "",
+        "key": "Your cart is empty",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 183
+        }
+      },
+      {
+        "comment": "",
+        "key": "Add items worth just ₹30 and invite friends\nto split delivery — magic ✨",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 186
+        }
+      },
+      {
+        "comment": "",
+        "key": "Start shopping",
+        "location": {
+          "startingColumn": 20,
+          "startingLine": 190
+        }
+      }
+    ]
+  },
+  "version": 1
+}

@@ -1,0 +1,112 @@
+{
+  "source": "/Users/kindrasaab/Documents/BlinkitSharedCart/BlinkitSharedCart/Features/Orders/OrderTrackingView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Track Order",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 34
+        }
+      },
+      {
+        "comment": "",
+        "key": "Order not found",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 30
+        }
+      },
+      {
+        "comment": "",
+        "key": "Everyone in this order gets live updates",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 52
+        }
+      },
+      {
+        "comment": "",
+        "key": "Group order · %lld people",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 67
+        }
+      },
+      {
+        "comment": "",
+        "key": "Placed by %@",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 69
+        }
+      },
+      {
+        "comment": "",
+        "key": "Split & settle up",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 87
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld friends owe you %@",
+        "location": {
+          "startingColumn": 28,
+          "startingLine": 90
+        }
+      },
+      {
+        "comment": "",
+        "key": "You owe %@ %@",
+        "location": {
+          "startingColumn": 28,
+          "startingLine": 91
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld items",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 115
+        }
+      },
+      {
+        "comment": "",
+        "key": "Return items",
+        "location": {
+          "startingColumn": 31,
+          "startingLine": 120
+        }
+      },
+      {
+        "comment": "",
+        "key": "×%lld",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 138
+        }
+      },
+      {
+        "comment": "",
+        "key": "by %@",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 133
+        }
+      },
+      {
+        "comment": "",
+        "key": "In progress…",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 184
+        }
+      }
+    ]
+  },
+  "version": 1
+}

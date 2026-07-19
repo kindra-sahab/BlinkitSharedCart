@@ -7,14 +7,14 @@
 
 import Foundation
 
-enum GroupStatus: String {
+enum GroupStatus: String, Codable {
     case active        // collecting items
     case placing       // host is checking out
     case placed        // order confirmed
     case expired
 }
 
-struct GroupSession: Identifiable, Hashable {
+struct GroupSession: Identifiable, Hashable, Codable {
     let id: String
     let inviteCode: String
     let hostID: String

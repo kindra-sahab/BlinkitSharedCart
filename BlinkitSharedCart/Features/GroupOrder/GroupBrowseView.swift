@@ -9,13 +9,32 @@
 import SwiftUI
 
 struct GroupBrowseView: View {
-    @Environment(AppState.self) private var app
+    // Passed explicitly (not @Environment) so observation fires reliably even
+    // though this view is presented via navigationDestination.
+    @Bindable var app: AppState
     @State private var selectedCategory: String = MockCatalog.categories.first!.id
+    /// Bumped on my own taps to force an instant refresh (see note in `body`).
+    @State private var refreshTick = 0
 
     private var products: [Product] { MockCatalog.products(in: selectedCategory) }
 
+    /// My quantity of a product in the live cart.
+    private func myQty(_ product: Product, in items: [CartItem]) -> Int {
+        var total = 0
+        for item in items where item.product.id == product.id && item.addedByID == app.currentUser.id {
+            total += item.quantity
+        }
+        return total
+    }
+
     var body: some View {
-        VStack(spacing: 0) {
+        // Read the live cart at body scope so the view re-renders the moment the
+        // shared session changes (locally or from the host's broadcast).
+        let liveItems: [CartItem] = app.realtime.session?.items ?? []
+        var subtotal = 0.0
+        for item in liveItems { subtotal += item.lineTotal }
+
+        return VStack(spacing: 0) {
             // Category selector
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 10) {
@@ -48,10 +67,10 @@ struct GroupBrowseView: View {
                     ForEach(products) { product in
                         ProductCard(
                             product: product,
-                            quantity: app.groupQuantity(of: product),
+                            quantity: myQty(product, in: liveItems),
                             onAdd: { app.addToGroup(product) },
-                            onIncrement: { app.contextChange(product, delta: 1) },
-                            onDecrement: { app.contextChange(product, delta: -1) },
+                            onIncrement: { app.groupChangeProduct(product, delta: 1) },
+                            onDecrement: { app.groupChangeProduct(product, delta: -1) },
                             onTap: nil
                         )
                     }
@@ -63,21 +82,25 @@ struct GroupBrowseView: View {
         .background(Palette.background)
         .navigationTitle("Add to group cart")
         .navigationBarTitleDisplayMode(.inline)
+        .onAppear { app.setGroupBrowsing(true) }
+        .onDisappear { app.setGroupBrowsing(false) }
         .safeAreaInset(edge: .bottom) {
-            if let s = app.session {
+            if !liveItems.isEmpty {
                 HStack {
-                    Text("\(s.items.count) items in group cart")
+                    Text("\(liveItems.count) items in group cart")
                         .font(.system(size: 13, weight: .bold, design: .rounded))
                         .foregroundStyle(.white)
                     Spacer()
-                    Text(rupees(s.bill.subtotal))
+                    Text(rupees(subtotal))
                         .font(.system(size: 15, weight: .heavy, design: .rounded))
                         .foregroundStyle(.white)
+                        .contentTransition(.numericText())
                 }
                 .padding(.horizontal, 16).padding(.vertical, 12)
                 .background(LinearGradient.group)
                 .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
                 .padding(12)
+                .animation(.spring(response: 0.3), value: liveItems.count)
             }
         }
     }

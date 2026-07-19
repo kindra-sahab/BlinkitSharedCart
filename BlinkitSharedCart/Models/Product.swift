@@ -12,7 +12,7 @@ struct Category: Identifiable, Hashable {
     let tint: UInt   // hex tint for the tile background wash
 }
 
-struct Product: Identifiable, Hashable {
+struct Product: Identifiable, Hashable, Codable {
     let id: String
     let name: String
     let emoji: String

@@ -1,0 +1,72 @@
+{
+  "source": "/Users/kindrasaab/Documents/BlinkitSharedCart/BlinkitSharedCart/Features/Home/HomeComponents.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Order together,\nsplit the delivery",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 25
+        }
+      },
+      {
+        "comment": "",
+        "key": "Invite roommates & unlock FREE delivery →",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 30
+        }
+      },
+      {
+        "comment": "",
+        "key": "GROUP ORDER",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 20
+        }
+      },
+      {
+        "comment": "",
+        "key": "🧺",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 59
+        }
+      },
+      {
+        "comment": "",
+        "key": "MONSOON ESSENTIALS",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 61
+        }
+      },
+      {
+        "comment": "",
+        "key": "Up to 60% off on daily needs",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 64
+        }
+      },
+      {
+        "comment": "",
+        "key": "Free gift on orders above ₹499",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 67
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 91
+        }
+      }
+    ]
+  },
+  "version": 1
+}

@@ -1,0 +1,16 @@
+{
+  "source": "/Users/kindrasaab/Documents/BlinkitSharedCart/BlinkitSharedCart/Components/CartItemRow.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Qty %lld",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 48
+        }
+      }
+    ]
+  },
+  "version": 1
+}

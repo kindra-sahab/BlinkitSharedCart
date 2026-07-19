@@ -47,7 +47,7 @@ struct ProductListView: View {
 struct GroupContextBar: View {
     @Environment(AppState.self) private var app
     var body: some View {
-        if let s = app.session {
+        if let s = app.realtime.session {
             Button { app.showSharedCart = true } label: {
                 HStack(spacing: 10) {
                     Image(systemName: "person.2.fill").foregroundStyle(.white)

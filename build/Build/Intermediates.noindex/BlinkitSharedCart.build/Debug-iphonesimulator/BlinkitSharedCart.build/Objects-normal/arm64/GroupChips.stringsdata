@@ -1,0 +1,40 @@
+{
+  "source": "/Users/kindrasaab/Documents/BlinkitSharedCart/BlinkitSharedCart/Components/GroupChips.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "%lld live",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 41
+        }
+      },
+      {
+        "comment": "",
+        "key": "Group order · live",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 68
+        }
+      },
+      {
+        "comment": "",
+        "key": "Free delivery unlocked 🎉",
+        "location": {
+          "startingColumn": 24,
+          "startingLine": 72
+        }
+      },
+      {
+        "comment": "",
+        "key": "%@ to free delivery",
+        "location": {
+          "startingColumn": 24,
+          "startingLine": 73
+        }
+      }
+    ]
+  },
+  "version": 1
+}

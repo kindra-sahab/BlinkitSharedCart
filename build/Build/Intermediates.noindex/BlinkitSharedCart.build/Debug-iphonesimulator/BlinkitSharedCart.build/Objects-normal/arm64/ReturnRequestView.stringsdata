@@ -1,0 +1,72 @@
+{
+  "source": "/Users/kindrasaab/Documents/BlinkitSharedCart/BlinkitSharedCart/Features/Returns/ReturnRequestView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Request Return",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 76
+        }
+      },
+      {
+        "comment": "",
+        "key": "Select item to return",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 31
+        }
+      },
+      {
+        "comment": "",
+        "key": "Reason",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 51
+        }
+      },
+      {
+        "comment": "",
+        "key": "You can return only the items you added. Everyone sees the return status.",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 84
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld item%@ added by others can only be returned by them%@.",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 99
+        }
+      },
+      {
+        "comment": "",
+        "key": "Qty %lld · refund %@",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 135
+        }
+      },
+      {
+        "comment": "",
+        "key": "Added by you",
+        "location": {
+          "startingColumn": 39,
+          "startingLine": 138
+        }
+      },
+      {
+        "comment": "",
+        "key": "Added by %@",
+        "location": {
+          "startingColumn": 56,
+          "startingLine": 138
+        }
+      }
+    ]
+  },
+  "version": 1
+}

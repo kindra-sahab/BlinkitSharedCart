@@ -5,7 +5,7 @@
 
 import SwiftUI
 
-enum OrderStage: Int, CaseIterable, Identifiable {
+enum OrderStage: Int, CaseIterable, Identifiable, Codable {
     case preparing, packed, outForDelivery, arriving, delivered
     var id: Int { rawValue }
 
@@ -40,7 +40,7 @@ enum OrderStage: Int, CaseIterable, Identifiable {
     }
 }
 
-struct Order: Identifiable, Hashable {
+struct Order: Identifiable, Hashable, Codable {
     static func == (l: Order, r: Order) -> Bool { l.id == r.id && l.stage == r.stage }
     func hash(into hasher: inout Hasher) { hasher.combine(id) }
 

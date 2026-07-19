@@ -32,7 +32,7 @@ enum Pricing {
 }
 
 /// Computed bill for any list of cart items.
-struct Bill {
+struct Bill: Codable {
     let subtotal: Double
     let deliveryFee: Double
     let smallCartFee: Double

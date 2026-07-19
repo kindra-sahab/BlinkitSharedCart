@@ -113,7 +113,7 @@ final class RealtimeService {
         if let idx = s.items.firstIndex(where: { $0.product.id == product.id && $0.addedByID == participant.id }) {
             s.items[idx].quantity += 1
         } else {
-            s.items.append(CartItem(product: product, addedBy: participant))
+            s.items.append(.group(product, addedBy: participant))
         }
         session = s
         if animated {
@@ -121,6 +121,27 @@ final class RealtimeService {
         }
         pushActivity(name: participant.name, color: participant.colorHex,
                      text: "added \(product.name)", broadcast: participant.id != Participant.me.id)
+        checkUnlock()
+    }
+
+    /// Product-keyed change (used by catalogue "ADD" / steppers). Keyed by
+    /// (product, participant) so ids never need to match across devices.
+    func changeProductQuantity(_ product: Product, by participant: Participant, delta: Int) {
+        guard var s = session else { return }
+        if let idx = s.items.firstIndex(where: { $0.product.id == product.id && $0.addedByID == participant.id }) {
+            s.items[idx].quantity += delta
+            if s.items[idx].quantity <= 0 {
+                s.items.remove(at: idx)
+            } else if delta > 0 {
+                toast = GroupToast(emoji: product.emoji, text: "\(participant.firstName) added \(product.name)")
+            }
+        } else if delta > 0 {
+            s.items.append(.group(product, addedBy: participant))
+            toast = GroupToast(emoji: product.emoji, text: "\(participant.firstName) added \(product.name)")
+            pushActivity(name: participant.name, color: participant.colorHex,
+                         text: "added \(product.name)", broadcast: participant.id != Participant.me.id)
+        }
+        session = s
         checkUnlock()
     }
 
@@ -160,13 +181,54 @@ final class RealtimeService {
         let unlocked = s.bill.freeDeliveryUnlocked
         if unlocked && !didUnlock {
             didUnlock = true
-            celebrate = true
+            triggerCelebration()
             toast = GroupToast(emoji: "🎉", text: "Free Delivery Unlocked!")
             onFreeDeliveryUnlocked?()
             pushActivity(name: "Everyone", color: 0x0FA958, text: "unlocked free delivery 🎉", broadcast: false)
         } else if !unlocked {
             didUnlock = false
         }
+    }
+
+    private func triggerCelebration() {
+        celebrate = true
+        Task { [weak self] in
+            try? await Task.sleep(for: .seconds(3))
+            self?.celebrate = false
+        }
+    }
+
+    // MARK: - Remote state (guest mirror)
+
+    /// Apply an authoritative snapshot received from the host, deriving a local
+    /// activity feed / toast / celebration from the delta versus what we had.
+    func applyRemoteState(_ incoming: GroupSession) {
+        if let old = session {
+            let oldParticipants = Set(old.participants.map { $0.id })
+            for p in incoming.participants where !oldParticipants.contains(p.id) && p.id != Participant.me.id {
+                activities.append(GroupActivity(participantName: p.name, colorHex: p.colorHex, text: "joined the order"))
+                toast = GroupToast(emoji: p.avatarEmoji, text: "\(p.firstName) joined the order")
+            }
+            let oldItems = Set(old.items.map { $0.id })
+            for item in incoming.items where !oldItems.contains(item.id) {
+                let who = incoming.participant(item.addedByID)
+                let name = who?.firstName ?? item.addedByName
+                activities.append(GroupActivity(participantName: name, colorHex: who?.colorHex ?? 0x9AA4AF,
+                                                text: "added \(item.product.name)"))
+                toast = GroupToast(emoji: item.product.emoji, text: "\(name) added \(item.product.name)")
+            }
+        }
+        session = incoming
+        let unlocked = incoming.bill.freeDeliveryUnlocked
+        if unlocked && !didUnlock {
+            didUnlock = true
+            triggerCelebration()
+            toast = GroupToast(emoji: "🎉", text: "Free Delivery Unlocked!")
+            onFreeDeliveryUnlocked?()
+        } else if !unlocked {
+            didUnlock = false
+        }
+        if clockTask == nil { startClock() }
     }
 
     // MARK: - Activity feed

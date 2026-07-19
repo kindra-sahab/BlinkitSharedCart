@@ -20,6 +20,7 @@ struct OrderTrackingView: View {
                 VStack(spacing: 16) {
                     etaHero(order)
                     if order.isGroupOrder { participantsCard(order) }
+                    if order.isGroupOrder { settlementCard(order) }
                     stagesCard(order)
                     itemsCard(order)
                     Color.clear.frame(height: 120)
@@ -71,6 +72,32 @@ struct OrderTrackingView: View {
             Spacer()
         }
         .cardStyle()
+    }
+
+    private func settlementCard(_ order: Order) -> some View {
+        let settlement = Settlement(order: order)
+        let iAmHost = app.currentUser.id == settlement.host.id
+        return Button { app.showSettlement = true } label: {
+            HStack(spacing: 12) {
+                ZStack {
+                    RoundedRectangle(cornerRadius: 12).fill(LinearGradient.group)
+                    Image(systemName: "indianrupeesign.circle.fill").foregroundStyle(.white).font(.system(size: 20))
+                }.frame(width: 44, height: 44)
+                VStack(alignment: .leading, spacing: 2) {
+                    Text("Split & settle up")
+                        .font(.system(size: 14, weight: .heavy, design: .rounded)).foregroundStyle(Palette.ink)
+                    Text(iAmHost
+                         ? "\(settlement.receivables.count) friends owe you \(rupees(settlement.totalReceivable))"
+                         : "You owe \(settlement.host.name) \(rupees(settlement.amountOwed(by: app.currentUser.id)))")
+                        .font(.system(size: 12, weight: .medium, design: .rounded))
+                        .foregroundStyle(Palette.inkSecondary)
+                }
+                Spacer()
+                Image(systemName: "chevron.right").foregroundStyle(Palette.inkTertiary)
+            }
+            .cardStyle()
+        }
+        .buttonStyle(.plain)
     }
 
     private func stagesCard(_ order: Order) -> some View {

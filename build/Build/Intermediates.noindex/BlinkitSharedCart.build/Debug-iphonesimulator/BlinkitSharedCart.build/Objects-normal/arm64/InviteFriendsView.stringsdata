@@ -1,0 +1,144 @@
+{
+  "source": "/Users/kindrasaab/Documents/BlinkitSharedCart/BlinkitSharedCart/Features/GroupOrder/InviteFriendsView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Invite to Group Order",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 29
+        }
+      },
+      {
+        "comment": "",
+        "key": "Cancel",
+        "location": {
+          "startingColumn": 28,
+          "startingLine": 33
+        }
+      },
+      {
+        "comment": "",
+        "key": "You'll be the Host",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 46
+        }
+      },
+      {
+        "comment": "",
+        "key": "Everyone adds to one cart. Only %@ more unlocks FREE delivery — split it together!",
+        "location": {
+          "startingColumn": 20,
+          "startingLine": 50
+        }
+      },
+      {
+        "comment": "",
+        "key": "Everyone adds to one cart and shares a single delivery.",
+        "location": {
+          "startingColumn": 20,
+          "startingLine": 51
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld phone%@ connected nearby. Start now — they'll get the invite instantly.",
+        "location": {
+          "startingColumn": 20,
+          "startingLine": 75
+        }
+      },
+      {
+        "comment": "",
+        "key": "Start anytime. Friends get the invite the moment they open Zipp nearby (same WiFi / Bluetooth on).",
+        "location": {
+          "startingColumn": 20,
+          "startingLine": 76
+        }
+      },
+      {
+        "comment": "",
+        "key": "LIVE · NEARBY DEVICES",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 67
+        }
+      },
+      {
+        "comment": "",
+        "key": "Start Live Group Order & Notify",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 86
+        }
+      },
+      {
+        "comment": "",
+        "key": "Connected",
+        "location": {
+          "startingColumn": 46,
+          "startingLine": 107
+        }
+      },
+      {
+        "comment": "",
+        "key": "Searching",
+        "location": {
+          "startingColumn": 60,
+          "startingLine": 107
+        }
+      },
+      {
+        "comment": "",
+        "key": "Or simulate with demo friends",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 118
+        }
+      },
+      {
+        "comment": "",
+        "key": "single device",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 122
+        }
+      },
+      {
+        "comment": "",
+        "key": "Share invite link",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 151
+        }
+      },
+      {
+        "comment": "",
+        "key": "zipp.app/join/GRP-7K2QX",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 153
+        }
+      },
+      {
+        "comment": "",
+        "key": "Active now",
+        "location": {
+          "startingColumn": 44,
+          "startingLine": 184
+        }
+      },
+      {
+        "comment": "",
+        "key": "Last seen recently",
+        "location": {
+          "startingColumn": 59,
+          "startingLine": 184
+        }
+      }
+    ]
+  },
+  "version": 1
+}
