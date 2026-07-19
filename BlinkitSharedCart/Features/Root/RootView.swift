@@ -83,6 +83,12 @@ struct RootTabView: View {
         .sheet(item: $app.liveInvite) { invite in
             LiveInviteView(invite: invite)
         }
+        .sheet(isPresented: $app.showSubscriptions) {
+            SubscriptionsView()
+        }
+        .sheet(isPresented: $app.showWallet) {
+            WalletSheet()
+        }
     }
 }
 

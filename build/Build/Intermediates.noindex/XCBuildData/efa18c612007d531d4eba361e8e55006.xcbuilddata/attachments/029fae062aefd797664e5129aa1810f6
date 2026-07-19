@@ -26,6 +26,10 @@
 /Users/kindrasaab/Documents/BlinkitSharedCart/BlinkitSharedCart/Features/Notifications/NotificationsView.swift
 /Users/kindrasaab/Documents/BlinkitSharedCart/BlinkitSharedCart/Features/Orders/OrdersView.swift
 /Users/kindrasaab/Documents/BlinkitSharedCart/BlinkitSharedCart/Features/Orders/OrderTrackingView.swift
+/Users/kindrasaab/Documents/BlinkitSharedCart/BlinkitSharedCart/Features/Recurring/CreateSubscriptionView.swift
+/Users/kindrasaab/Documents/BlinkitSharedCart/BlinkitSharedCart/Features/Recurring/SubscriptionDetailView.swift
+/Users/kindrasaab/Documents/BlinkitSharedCart/BlinkitSharedCart/Features/Recurring/SubscriptionsView.swift
+/Users/kindrasaab/Documents/BlinkitSharedCart/BlinkitSharedCart/Features/Recurring/WalletSheet.swift
 /Users/kindrasaab/Documents/BlinkitSharedCart/BlinkitSharedCart/Features/Returns/ReturnRequestView.swift
 /Users/kindrasaab/Documents/BlinkitSharedCart/BlinkitSharedCart/Features/Returns/ReturnsSummaryCard.swift
 /Users/kindrasaab/Documents/BlinkitSharedCart/BlinkitSharedCart/Features/Root/RootView.swift
@@ -39,6 +43,7 @@
 /Users/kindrasaab/Documents/BlinkitSharedCart/BlinkitSharedCart/Models/Product.swift
 /Users/kindrasaab/Documents/BlinkitSharedCart/BlinkitSharedCart/Models/ReturnRequest.swift
 /Users/kindrasaab/Documents/BlinkitSharedCart/BlinkitSharedCart/Models/Settlement.swift
+/Users/kindrasaab/Documents/BlinkitSharedCart/BlinkitSharedCart/Models/Subscription.swift
 /Users/kindrasaab/Documents/BlinkitSharedCart/BlinkitSharedCart/Multipeer/MultipeerService.swift
 /Users/kindrasaab/Documents/BlinkitSharedCart/BlinkitSharedCart/Multipeer/SyncMessage.swift
 /Users/kindrasaab/Documents/BlinkitSharedCart/BlinkitSharedCart/Services/LocalNotifier.swift

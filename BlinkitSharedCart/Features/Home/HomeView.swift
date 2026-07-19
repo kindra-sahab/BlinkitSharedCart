@@ -15,6 +15,8 @@ struct HomeView: View {
                     header
                     GroupOrderPromoCard()
                         .padding(.horizontal, 16)
+                    RecurringPromoCard()
+                        .padding(.horizontal, 16)
                     BeautyBashBanner()
                         .padding(.horizontal, 16)
                     featuredRail
@@ -103,13 +105,16 @@ struct HomeView: View {
     }
 
     private var walletChip: some View {
-        HStack(spacing: 5) {
-            Image(systemName: "wallet.bifold.fill").font(.system(size: 12))
-            Text("₹0").font(.system(size: 13, weight: .bold, design: .rounded))
+        Button { app.showWallet = true } label: {
+            HStack(spacing: 5) {
+                Image(systemName: "wallet.bifold.fill").font(.system(size: 12))
+                Text(rupees(app.walletBalance)).font(.system(size: 13, weight: .bold, design: .rounded))
+            }
+            .foregroundStyle(Palette.brandDark)
+            .padding(.horizontal, 10).frame(height: 34)
+            .background(.white, in: Capsule())
         }
-        .foregroundStyle(Palette.brandDark)
-        .padding(.horizontal, 10).frame(height: 34)
-        .background(.white, in: Capsule())
+        .buttonStyle(.plain)
     }
 
     // MARK: Featured

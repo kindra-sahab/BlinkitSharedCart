@@ -42,6 +42,16 @@ final class AppState {
     private(set) var pastOrders: [Order] = []
     private(set) var returns: [ReturnRequest] = []
 
+    // Recurring delivery + wallet ("Blinkit Money").
+    private(set) var subscriptions: [Subscription] = []
+    private(set) var walletBalance: Double = 480
+    /// Bumped on any subscription change so pushed subscription views refresh.
+    private(set) var subsTick = 0
+    var showCreateSubscription = false
+    var showSubscriptions = false
+    var showWallet = false
+    private var subTasks: [String: Task<Void, Never>] = [:]
+
     // Navigation
     var selectedTab: AppTab = .home
     var showInviteSheet = false
@@ -496,6 +506,163 @@ final class AppState {
             }
         }
     }
+
+    // MARK: - Recurring delivery (subscriptions)
+
+    /// Demo cadence: how long one "day" lasts before the next auto-delivery fires.
+    private let demoDaySeconds: Double = 22
+    private let demoFirstRunSeconds: Double = 6
+
+    func createSubscription(title: String, items: [CartItem], startDate: Date,
+                            endDate: Date, hour: Int, minute: Int, weekdays: Set<Int>) {
+        let id = "SUB" + String(Int.random(in: 1000...9999))
+        let next = nextRunDate(after: startDate.addingTimeInterval(-60), hour: hour, minute: minute,
+                               weekdays: weekdays, endDate: endDate)
+        let sub = Subscription(
+            id: id, title: title.isEmpty ? "Daily Essentials" : title,
+            items: items, startDate: startDate, endDate: endDate,
+            hour: hour, minute: minute, weekdays: weekdays,
+            status: .active, nextRunDate: next, deliveries: [], createdAt: .now
+        )
+        subscriptions.insert(sub, at: 0)
+        subsTick += 1
+        pushNotification(.init(kind: .generic, title: "Subscription started 🔁",
+            body: "\(sub.title) · \(sub.scheduleText). We'll deliver & auto-pay from Blinkit Money."),
+            banner: true)
+        startSubTask(id)
+        showCreateSubscription = false
+    }
+
+    private func nextRunDate(after date: Date, hour: Int, minute: Int,
+                             weekdays: Set<Int>, endDate: Date) -> Date {
+        let cal = Calendar.current
+        for offset in 0..<400 {
+            guard let day = cal.date(byAdding: .day, value: offset, to: date) else { break }
+            var comps = cal.dateComponents([.year, .month, .day], from: day)
+            comps.hour = hour; comps.minute = minute
+            guard let candidate = cal.date(from: comps) else { continue }
+            if candidate < date { continue }
+            if candidate > endDate { break }
+            if weekdays.contains(cal.component(.weekday, from: candidate)) { return candidate }
+        }
+        return date
+    }
+
+    private func startSubTask(_ id: String) {
+        subTasks[id]?.cancel()
+        subTasks[id] = Task { [weak self] in
+            try? await Task.sleep(for: .seconds(self?.demoFirstRunSeconds ?? 6))
+            while true {
+                guard let self,
+                      let sub = self.subscriptions.first(where: { $0.id == id }),
+                      sub.status == .active else { return }
+                self.fireDelivery(id)
+                try? await Task.sleep(for: .seconds(self.demoDaySeconds))
+            }
+        }
+    }
+
+    /// Runs one delivery for a subscription (auto-paid from the wallet).
+    func fireDelivery(_ id: String) {
+        guard let idx = subscriptions.firstIndex(where: { $0.id == id }) else { return }
+        var sub = subscriptions[idx]
+        guard sub.status == .active else { return }
+        let amount = sub.perDeliveryTotal
+
+        // Insufficient balance → fail this run and pause.
+        if walletBalance < amount {
+            sub.deliveries.insert(SubDelivery(date: .now, status: .failed, amount: amount), at: 0)
+            sub.status = .paused
+            subscriptions[idx] = sub
+            subsTick += 1
+            subTasks[id]?.cancel()
+            pushNotification(.init(kind: .returnUpdate, title: "Subscription paused — low balance",
+                body: "Add money to Blinkit Money to resume \(sub.title). Needed \(rupees(amount))."), banner: true)
+            return
+        }
+
+        walletBalance -= amount
+        let order = Order(
+            id: "ORD" + String(Int.random(in: 10000...99999)),
+            items: sub.items,
+            bill: Bill(items: sub.items),
+            placedByName: currentUser.name,
+            isGroupOrder: false,
+            isRecurring: true,
+            participants: [currentUser],
+            placedAt: .now,
+            stage: .preparing
+        )
+        activeOrder = order
+        startTrackingSimulation()
+
+        sub.deliveries.insert(SubDelivery(date: .now, status: .delivered, amount: amount, orderID: order.id), at: 0)
+        // Advance to the next scheduled day.
+        let cal = Calendar.current
+        let tomorrow = cal.date(byAdding: .day, value: 1, to: sub.nextRunDate) ?? sub.nextRunDate
+        sub.nextRunDate = nextRunDate(after: tomorrow, hour: sub.hour, minute: sub.minute,
+                                      weekdays: sub.weekdays, endDate: sub.endDate)
+        if sub.nextRunDate > sub.endDate || sub.nextRunDate == tomorrow && tomorrow > sub.endDate {
+            sub.status = .ended
+            subTasks[id]?.cancel()
+        }
+        subscriptions[idx] = sub
+        subsTick += 1
+
+        let names = sub.items.prefix(3).map { $0.product.name }.joined(separator: ", ")
+        pushNotification(.init(kind: .orderPlaced, title: "Recurring order placed 🔁",
+            body: "\(names) · \(rupees(amount)) auto-paid from Blinkit Money. Arriving soon."), banner: true)
+    }
+
+    func pauseSubscription(_ id: String) {
+        updateSub(id) { $0.status = .paused }
+        subTasks[id]?.cancel()
+    }
+
+    func resumeSubscription(_ id: String) {
+        guard let sub = subscriptions.first(where: { $0.id == id }) else { return }
+        guard sub.endDate > .now else { updateSub(id) { $0.status = .ended }; return }
+        updateSub(id) { s in
+            s.status = .active
+            s.nextRunDate = nextRunDate(after: .now, hour: s.hour, minute: s.minute,
+                                        weekdays: s.weekdays, endDate: s.endDate)
+        }
+        startSubTask(id)
+    }
+
+    func cancelSubscription(_ id: String) {
+        updateSub(id) { $0.status = .cancelled }
+        subTasks[id]?.cancel()
+        subTasks[id] = nil
+    }
+
+    func skipNextDelivery(_ id: String) {
+        updateSub(id) { s in
+            s.deliveries.insert(SubDelivery(date: s.nextRunDate, status: .skipped, amount: s.perDeliveryTotal), at: 0)
+            let cal = Calendar.current
+            let tomorrow = cal.date(byAdding: .day, value: 1, to: s.nextRunDate) ?? s.nextRunDate
+            s.nextRunDate = self.nextRunDate(after: tomorrow, hour: s.hour, minute: s.minute,
+                                             weekdays: s.weekdays, endDate: s.endDate)
+        }
+        pushNotification(.init(kind: .generic, title: "Next delivery skipped",
+            body: "We'll resume on your following scheduled day."), banner: false)
+    }
+
+    func addMoney(_ amount: Double) {
+        walletBalance += amount
+        pushNotification(.init(kind: .generic, title: "Blinkit Money added",
+            body: "\(rupees(amount)) added. New balance \(rupees(walletBalance))."), banner: true)
+    }
+
+    private func updateSub(_ id: String, _ change: (inout Subscription) -> Void) {
+        guard let idx = subscriptions.firstIndex(where: { $0.id == id }) else { return }
+        var sub = subscriptions[idx]
+        change(&sub)
+        subscriptions[idx] = sub
+        subsTick += 1
+    }
+
+    var activeSubscriptionCount: Int { subscriptions.filter { $0.status == .active }.count }
 
     // MARK: - Returns
 

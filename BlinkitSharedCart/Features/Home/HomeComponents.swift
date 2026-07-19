@@ -52,6 +52,49 @@ struct GroupOrderPromoCard: View {
     }
 }
 
+/// Pitches the Recurring Delivery feature.
+struct RecurringPromoCard: View {
+    @Environment(AppState.self) private var app
+
+    var body: some View {
+        Button { app.showSubscriptions = true } label: {
+            HStack(spacing: 14) {
+                VStack(alignment: .leading, spacing: 6) {
+                    HStack(spacing: 6) {
+                        Image(systemName: "arrow.trianglehead.2.clockwise.rotate.90")
+                        Text("RECURRING DELIVERY").tracking(1)
+                    }
+                    .font(.system(size: 11, weight: .heavy, design: .rounded))
+                    .foregroundStyle(.white.opacity(0.9))
+
+                    Text("Never run out of\nmilk again")
+                        .font(.system(size: 18, weight: .heavy, design: .rounded))
+                        .foregroundStyle(.white)
+                        .fixedSize(horizontal: false, vertical: true)
+
+                    Text(app.activeSubscriptionCount > 0
+                         ? "\(app.activeSubscriptionCount) active · manage →"
+                         : "Schedule milk, veggies & more daily →")
+                        .font(.system(size: 12, weight: .semibold, design: .rounded))
+                        .foregroundStyle(.white.opacity(0.9))
+                }
+                Spacer()
+                ZStack {
+                    Circle().fill(.white.opacity(0.18)).frame(width: 62, height: 62)
+                    Text("🥛").font(.system(size: 30))
+                    Image(systemName: "arrow.trianglehead.2.clockwise.rotate.90")
+                        .font(.system(size: 60, weight: .thin)).foregroundStyle(.white.opacity(0.25))
+                }
+                .frame(width: 62)
+            }
+            .padding(16)
+            .background(LinearGradient.brand, in: RoundedRectangle(cornerRadius: 20, style: .continuous))
+            .softShadow(18, y: 10, opacity: 0.2)
+        }
+        .buttonStyle(.plain)
+    }
+}
+
 /// Decorative promo banner (original artwork, not copied branding).
 struct BeautyBashBanner: View {
     var body: some View {

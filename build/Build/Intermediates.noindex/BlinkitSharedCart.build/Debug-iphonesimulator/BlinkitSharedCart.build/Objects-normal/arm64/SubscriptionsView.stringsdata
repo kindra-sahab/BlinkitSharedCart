@@ -1,0 +1,88 @@
+{
+  "source": "/Users/kindrasaab/Documents/BlinkitSharedCart/BlinkitSharedCart/Features/Recurring/SubscriptionsView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Recurring Deliveries",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 24
+        }
+      },
+      {
+        "comment": "",
+        "key": "Close",
+        "location": {
+          "startingColumn": 28,
+          "startingLine": 29
+        }
+      },
+      {
+        "comment": "",
+        "key": "🔁",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 59
+        }
+      },
+      {
+        "comment": "",
+        "key": "No recurring deliveries yet",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 60
+        }
+      },
+      {
+        "comment": "",
+        "key": "Get milk, veggies & essentials delivered\nevery day without lifting a finger.",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 62
+        }
+      },
+      {
+        "comment": "",
+        "key": "Set up recurring delivery",
+        "location": {
+          "startingColumn": 20,
+          "startingLine": 65
+        }
+      },
+      {
+        "comment": "",
+        "key": "+%lld",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 97
+        }
+      },
+      {
+        "comment": "",
+        "key": "Manage →",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 111
+        }
+      },
+      {
+        "comment": "",
+        "key": "Blinkit Money",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 137
+        }
+      },
+      {
+        "comment": "",
+        "key": "+ Add",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 144
+        }
+      }
+    ]
+  },
+  "version": 1
+}

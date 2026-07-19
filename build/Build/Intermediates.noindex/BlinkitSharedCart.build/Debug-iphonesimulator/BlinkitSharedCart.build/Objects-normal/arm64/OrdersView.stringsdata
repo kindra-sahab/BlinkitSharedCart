@@ -7,7 +7,7 @@
         "key": "📦",
         "location": {
           "startingColumn": 18,
-          "startingLine": 51
+          "startingLine": 53
         }
       },
       {
@@ -15,7 +15,7 @@
         "key": "No orders yet",
         "location": {
           "startingColumn": 18,
-          "startingLine": 52
+          "startingLine": 54
         }
       },
       {
@@ -23,7 +23,31 @@
         "key": "Your live and past orders will show up here.",
         "location": {
           "startingColumn": 18,
-          "startingLine": 54
+          "startingLine": 56
+        }
+      },
+      {
+        "comment": "",
+        "key": "Recurring deliveries",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 74
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld active · auto-paid from Blinkit Money",
+        "location": {
+          "startingColumn": 28,
+          "startingLine": 77
+        }
+      },
+      {
+        "comment": "",
+        "key": "Schedule daily essentials — set up in seconds",
+        "location": {
+          "startingColumn": 28,
+          "startingLine": 78
         }
       },
       {
@@ -31,7 +55,7 @@
         "key": "Group",
         "location": {
           "startingColumn": 35,
-          "startingLine": 77
+          "startingLine": 107
         }
       },
       {
@@ -39,7 +63,7 @@
         "key": "+%lld",
         "location": {
           "startingColumn": 26,
-          "startingLine": 102
+          "startingLine": 132
         }
       },
       {
@@ -47,7 +71,7 @@
         "key": "Track →",
         "location": {
           "startingColumn": 33,
-          "startingLine": 106
+          "startingLine": 136
         }
       },
       {
@@ -55,7 +79,7 @@
         "key": "View / Return →",
         "location": {
           "startingColumn": 47,
-          "startingLine": 106
+          "startingLine": 136
         }
       }
     ]

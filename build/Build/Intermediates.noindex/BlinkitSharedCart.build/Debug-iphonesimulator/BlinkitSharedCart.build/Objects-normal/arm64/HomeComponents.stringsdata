@@ -28,10 +28,50 @@
       },
       {
         "comment": "",
+        "key": "Never run out of\nmilk again",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 70
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld active · manage →",
+        "location": {
+          "startingColumn": 28,
+          "startingLine": 76
+        }
+      },
+      {
+        "comment": "",
+        "key": "Schedule milk, veggies & more daily →",
+        "location": {
+          "startingColumn": 28,
+          "startingLine": 77
+        }
+      },
+      {
+        "comment": "",
+        "key": "RECURRING DELIVERY",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 65
+        }
+      },
+      {
+        "comment": "",
+        "key": "🥛",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 84
+        }
+      },
+      {
+        "comment": "",
         "key": "🧺",
         "location": {
           "startingColumn": 18,
-          "startingLine": 59
+          "startingLine": 102
         }
       },
       {
@@ -39,7 +79,7 @@
         "key": "MONSOON ESSENTIALS",
         "location": {
           "startingColumn": 22,
-          "startingLine": 61
+          "startingLine": 104
         }
       },
       {
@@ -47,7 +87,7 @@
         "key": "Up to 60% off on daily needs",
         "location": {
           "startingColumn": 22,
-          "startingLine": 64
+          "startingLine": 107
         }
       },
       {
@@ -55,7 +95,7 @@
         "key": "Free gift on orders above ₹499",
         "location": {
           "startingColumn": 22,
-          "startingLine": 67
+          "startingLine": 110
         }
       },
       {
@@ -63,7 +103,7 @@
         "key": "%lld",
         "location": {
           "startingColumn": 26,
-          "startingLine": 91
+          "startingLine": 134
         }
       }
     ]

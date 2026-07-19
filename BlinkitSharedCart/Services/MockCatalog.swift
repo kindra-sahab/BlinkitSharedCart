@@ -41,6 +41,9 @@ enum MockCatalog {
         Product(id: "p_onion",  name: "Onion",                 emoji: "🧅", unit: "1 kg",     price: 39, mrp: 55, categoryID: "fruits", etaMinutes: 12),
         Product(id: "p_potato", name: "Potato",                emoji: "🥔", unit: "1 kg",     price: 33, mrp: 45, categoryID: "fruits", etaMinutes: 12),
         Product(id: "p_lemon",  name: "Lemon",                 emoji: "🍋", unit: "4 pcs",    price: 22, mrp: 30, categoryID: "fruits", etaMinutes: 12),
+        Product(id: "p_mushroom",name: "Button Mushrooms",     emoji: "🍄", unit: "200 g",    price: 59, mrp: 70, categoryID: "fruits", etaMinutes: 12),
+        Product(id: "p_coriander",name: "Fresh Coriander",     emoji: "🌿", unit: "100 g",    price: 15, mrp: 20, categoryID: "fruits", etaMinutes: 12),
+        Product(id: "p_spinach", name: "Palak (Spinach)",      emoji: "🥬", unit: "250 g",    price: 25, mrp: 32, categoryID: "fruits", etaMinutes: 12),
 
         // Snacks
         Product(id: "p_chips",  name: "Classic Salted Chips",  emoji: "🥔", unit: "52 g",     price: 20, mrp: 20, categoryID: "snacks", etaMinutes: 11),
@@ -105,6 +108,14 @@ enum MockCatalog {
     static let featured: [Product] = [
         product("p_milk"), product("p_bread"), product("p_eggs"), product("p_banana"),
         product("p_coke"), product("p_chips"), product("p_choco"), product("p_icecream")
+    ].compactMap { $0 }
+
+    /// Everyday items commonly set up for recurring morning delivery.
+    static let morningEssentials: [Product] = [
+        product("p_milk"), product("p_mushroom"), product("p_coriander"),
+        product("p_bread"), product("p_eggs"), product("p_banana"),
+        product("p_curd"), product("p_spinach"), product("p_butter"),
+        product("p_tomato")
     ].compactMap { $0 }
 
     /// Products a simulated friend might add during a group order.

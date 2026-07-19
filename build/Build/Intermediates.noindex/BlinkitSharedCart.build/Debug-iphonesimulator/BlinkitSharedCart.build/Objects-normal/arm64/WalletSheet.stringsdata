@@ -1,0 +1,72 @@
+{
+  "source": "/Users/kindrasaab/Documents/BlinkitSharedCart/BlinkitSharedCart/Features/Recurring/WalletSheet.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Blinkit Money",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 50
+        }
+      },
+      {
+        "comment": "",
+        "key": "Recent auto-payments",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 29
+        }
+      },
+      {
+        "comment": "",
+        "key": "Recurring order",
+        "location": {
+          "startingColumn": 42,
+          "startingLine": 35
+        }
+      },
+      {
+        "comment": "",
+        "key": "-%@",
+        "location": {
+          "startingColumn": 42,
+          "startingLine": 38
+        }
+      },
+      {
+        "comment": "",
+        "key": "Done",
+        "location": {
+          "startingColumn": 28,
+          "startingLine": 54
+        }
+      },
+      {
+        "comment": "",
+        "key": "Available balance",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 62
+        }
+      },
+      {
+        "comment": "",
+        "key": "Used to auto-pay your recurring deliveries",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 66
+        }
+      },
+      {
+        "comment": "",
+        "key": "+ %@",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 77
+        }
+      }
+    ]
+  },
+  "version": 1
+}

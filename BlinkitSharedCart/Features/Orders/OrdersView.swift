@@ -11,7 +11,7 @@ struct OrdersView: View {
     var body: some View {
         NavigationStack {
             Group {
-                if app.activeOrder == nil && app.pastOrders.isEmpty {
+                if app.activeOrder == nil && app.pastOrders.isEmpty && app.subscriptions.isEmpty {
                     emptyState
                 } else {
                     list
@@ -28,6 +28,7 @@ struct OrdersView: View {
     private var list: some View {
         ScrollView(showsIndicators: false) {
             VStack(spacing: 14) {
+                SubscriptionsEntryCard()
                 if let order = app.activeOrder {
                     NavigationLink(value: order) { OrderCard(order: order, isActive: true) }
                         .buttonStyle(.plain)
@@ -47,6 +48,7 @@ struct OrdersView: View {
 
     private var emptyState: some View {
         VStack(spacing: 14) {
+            SubscriptionsEntryCard().padding(.horizontal, 16).padding(.top, 8)
             Spacer()
             Text("📦").font(.system(size: 64))
             Text("No orders yet")
@@ -55,6 +57,34 @@ struct OrdersView: View {
                 .font(.system(size: 13, design: .rounded)).foregroundStyle(Palette.inkSecondary)
             Spacer(); Spacer()
         }
+    }
+}
+
+struct SubscriptionsEntryCard: View {
+    @Environment(AppState.self) private var app
+    var body: some View {
+        Button { app.showSubscriptions = true } label: {
+            HStack(spacing: 12) {
+                ZStack {
+                    RoundedRectangle(cornerRadius: 12).fill(LinearGradient.brand)
+                    Image(systemName: "arrow.trianglehead.2.clockwise.rotate.90")
+                        .foregroundStyle(.white).font(.system(size: 20, weight: .bold))
+                }.frame(width: 46, height: 46)
+                VStack(alignment: .leading, spacing: 2) {
+                    Text("Recurring deliveries")
+                        .font(.system(size: 15, weight: .heavy, design: .rounded)).foregroundStyle(Palette.ink)
+                    Text(app.activeSubscriptionCount > 0
+                         ? "\(app.activeSubscriptionCount) active · auto-paid from Blinkit Money"
+                         : "Schedule daily essentials — set up in seconds")
+                        .font(.system(size: 12, weight: .medium, design: .rounded))
+                        .foregroundStyle(Palette.inkSecondary).lineLimit(1)
+                }
+                Spacer()
+                Image(systemName: "chevron.right").foregroundStyle(Palette.inkTertiary)
+            }
+            .cardStyle()
+        }
+        .buttonStyle(.plain)
     }
 }
 

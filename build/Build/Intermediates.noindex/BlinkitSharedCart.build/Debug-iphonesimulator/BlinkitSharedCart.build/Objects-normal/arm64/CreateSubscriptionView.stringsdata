@@ -1,0 +1,104 @@
+{
+  "source": "/Users/kindrasaab/Documents/BlinkitSharedCart/BlinkitSharedCart/Features/Recurring/CreateSubscriptionView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Recurring Delivery",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 46
+        }
+      },
+      {
+        "comment": "",
+        "key": "Cancel",
+        "location": {
+          "startingColumn": 28,
+          "startingLine": 50
+        }
+      },
+      {
+        "comment": "",
+        "key": "Set it once, get it daily",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 64
+        }
+      },
+      {
+        "comment": "",
+        "key": "Same items, delivered on schedule, auto-paid from Blinkit Money. Cancel anytime.",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 66
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 97
+        }
+      },
+      {
+        "comment": "",
+        "key": "Delivery time",
+        "location": {
+          "startingColumn": 28,
+          "startingLine": 162
+        }
+      },
+      {
+        "comment": "",
+        "key": "Starts",
+        "location": {
+          "startingColumn": 28,
+          "startingLine": 164
+        }
+      },
+      {
+        "comment": "",
+        "key": "Ends",
+        "location": {
+          "startingColumn": 28,
+          "startingLine": 166
+        }
+      },
+      {
+        "comment": "",
+        "key": "Per delivery",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 180
+        }
+      },
+      {
+        "comment": "",
+        "key": "FREE delivery on every order",
+        "location": {
+          "startingColumn": 23,
+          "startingLine": 186
+        }
+      },
+      {
+        "comment": "",
+        "key": "Auto-pay from Blinkit Money",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 193
+        }
+      },
+      {
+        "comment": "",
+        "key": "Bal %@",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 196
+        }
+      }
+    ]
+  },
+  "version": 1
+}

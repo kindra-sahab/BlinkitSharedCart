@@ -49,6 +49,7 @@ struct Order: Identifiable, Hashable, Codable {
     let bill: Bill
     let placedByName: String
     let isGroupOrder: Bool
+    var isRecurring: Bool = false
     let participants: [Participant]
     let placedAt: Date
     var stage: OrderStage

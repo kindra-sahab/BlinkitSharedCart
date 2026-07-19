@@ -1,0 +1,56 @@
+{
+  "source": "/Users/kindrasaab/Documents/BlinkitSharedCart/BlinkitSharedCart/Features/Recurring/SubscriptionDetailView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Subscription",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 33
+        }
+      },
+      {
+        "comment": "",
+        "key": "Subscription not found",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 29
+        }
+      },
+      {
+        "comment": "",
+        "key": "Items · every delivery",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 77
+        }
+      },
+      {
+        "comment": "",
+        "key": "×%lld",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 85
+        }
+      },
+      {
+        "comment": "",
+        "key": "Upcoming deliveries",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 97
+        }
+      },
+      {
+        "comment": "",
+        "key": "History",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 117
+        }
+      }
+    ]
+  },
+  "version": 1
+}

@@ -7,7 +7,7 @@
         "key": "Group Order",
         "location": {
           "startingColumn": 26,
-          "startingLine": 85
+          "startingLine": 77
         }
       },
       {
@@ -15,7 +15,7 @@
         "key": "Code %@",
         "location": {
           "startingColumn": 26,
-          "startingLine": 87
+          "startingLine": 79
         }
       },
       {
@@ -23,7 +23,7 @@
         "key": "You're host",
         "location": {
           "startingColumn": 27,
-          "startingLine": 100
+          "startingLine": 92
         }
       },
       {
@@ -31,7 +31,7 @@
         "key": "Your items",
         "location": {
           "startingColumn": 63,
-          "startingLine": 142
+          "startingLine": 134
         }
       },
       {
@@ -39,7 +39,7 @@
         "key": "%@'s items",
         "location": {
           "startingColumn": 78,
-          "startingLine": 142
+          "startingLine": 134
         }
       },
       {
@@ -47,7 +47,7 @@
         "key": "Add more items",
         "location": {
           "startingColumn": 22,
-          "startingLine": 177
+          "startingLine": 169
         }
       },
       {
@@ -55,7 +55,7 @@
         "key": "This group order expired",
         "location": {
           "startingColumn": 23,
-          "startingLine": 195
+          "startingLine": 187
         }
       },
       {
@@ -63,7 +63,7 @@
         "key": "%lld items · %lld live",
         "location": {
           "startingColumn": 30,
-          "startingLine": 204
+          "startingLine": 196
         }
       },
       {
@@ -71,7 +71,7 @@
         "key": "Waiting for %@ to place order…",
         "location": {
           "startingColumn": 22,
-          "startingLine": 235
+          "startingLine": 227
         }
       },
       {
@@ -79,7 +79,7 @@
         "key": "Your share: %@ · You'll be notified when it's placed",
         "location": {
           "startingColumn": 22,
-          "startingLine": 238
+          "startingLine": 230
         }
       },
       {
@@ -87,7 +87,7 @@
         "key": "Live activity",
         "location": {
           "startingColumn": 22,
-          "startingLine": 259
+          "startingLine": 251
         }
       },
       {
@@ -95,7 +95,7 @@
         "key": " %@",
         "location": {
           "startingColumn": 29,
-          "startingLine": 269
+          "startingLine": 261
         }
       }
     ]

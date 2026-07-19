@@ -1,37 +1,23 @@
 {
-  "/Users/kindrasaab/Documents/BlinkitSharedCart/BlinkitSharedCart/Components/GroupChips.swift" : {
-    "const-values" : "/Users/kindrasaab/Documents/BlinkitSharedCart/build/Build/Intermediates.noindex/BlinkitSharedCart.build/Debug-iphonesimulator/BlinkitSharedCart.build/Objects-normal/arm64/GroupChips.swiftconstvalues",
-    "dependencies" : "/Users/kindrasaab/Documents/BlinkitSharedCart/build/Build/Intermediates.noindex/BlinkitSharedCart.build/Debug-iphonesimulator/BlinkitSharedCart.build/Objects-normal/arm64/GroupChips.d",
-    "diagnostics" : "/Users/kindrasaab/Documents/BlinkitSharedCart/build/Build/Intermediates.noindex/BlinkitSharedCart.build/Debug-iphonesimulator/BlinkitSharedCart.build/Objects-normal/arm64/GroupChips.dia",
-    "object" : "/Users/kindrasaab/Documents/BlinkitSharedCart/build/Build/Intermediates.noindex/BlinkitSharedCart.build/Debug-iphonesimulator/BlinkitSharedCart.build/Objects-normal/arm64/GroupChips.o",
-    "swift-dependencies" : "/Users/kindrasaab/Documents/BlinkitSharedCart/build/Build/Intermediates.noindex/BlinkitSharedCart.build/Debug-iphonesimulator/BlinkitSharedCart.build/Objects-normal/arm64/GroupChips.swiftdeps"
+  "/Users/kindrasaab/Documents/BlinkitSharedCart/BlinkitSharedCart/Features/Cart/CartView.swift" : {
+    "const-values" : "/Users/kindrasaab/Documents/BlinkitSharedCart/build/Build/Intermediates.noindex/BlinkitSharedCart.build/Debug-iphonesimulator/BlinkitSharedCart.build/Objects-normal/arm64/CartView.swiftconstvalues",
+    "dependencies" : "/Users/kindrasaab/Documents/BlinkitSharedCart/build/Build/Intermediates.noindex/BlinkitSharedCart.build/Debug-iphonesimulator/BlinkitSharedCart.build/Objects-normal/arm64/CartView.d",
+    "diagnostics" : "/Users/kindrasaab/Documents/BlinkitSharedCart/build/Build/Intermediates.noindex/BlinkitSharedCart.build/Debug-iphonesimulator/BlinkitSharedCart.build/Objects-normal/arm64/CartView.dia",
+    "object" : "/Users/kindrasaab/Documents/BlinkitSharedCart/build/Build/Intermediates.noindex/BlinkitSharedCart.build/Debug-iphonesimulator/BlinkitSharedCart.build/Objects-normal/arm64/CartView.o",
+    "swift-dependencies" : "/Users/kindrasaab/Documents/BlinkitSharedCart/build/Build/Intermediates.noindex/BlinkitSharedCart.build/Debug-iphonesimulator/BlinkitSharedCart.build/Objects-normal/arm64/CartView.swiftdeps"
   },
-  "/Users/kindrasaab/Documents/BlinkitSharedCart/BlinkitSharedCart/Components/Overlays.swift" : {
-    "const-values" : "/Users/kindrasaab/Documents/BlinkitSharedCart/build/Build/Intermediates.noindex/BlinkitSharedCart.build/Debug-iphonesimulator/BlinkitSharedCart.build/Objects-normal/arm64/Overlays.swiftconstvalues",
-    "dependencies" : "/Users/kindrasaab/Documents/BlinkitSharedCart/build/Build/Intermediates.noindex/BlinkitSharedCart.build/Debug-iphonesimulator/BlinkitSharedCart.build/Objects-normal/arm64/Overlays.d",
-    "diagnostics" : "/Users/kindrasaab/Documents/BlinkitSharedCart/build/Build/Intermediates.noindex/BlinkitSharedCart.build/Debug-iphonesimulator/BlinkitSharedCart.build/Objects-normal/arm64/Overlays.dia",
-    "object" : "/Users/kindrasaab/Documents/BlinkitSharedCart/build/Build/Intermediates.noindex/BlinkitSharedCart.build/Debug-iphonesimulator/BlinkitSharedCart.build/Objects-normal/arm64/Overlays.o",
-    "swift-dependencies" : "/Users/kindrasaab/Documents/BlinkitSharedCart/build/Build/Intermediates.noindex/BlinkitSharedCart.build/Debug-iphonesimulator/BlinkitSharedCart.build/Objects-normal/arm64/Overlays.swiftdeps"
+  "/Users/kindrasaab/Documents/BlinkitSharedCart/BlinkitSharedCart/Features/Catalog/ProductDetailView.swift" : {
+    "const-values" : "/Users/kindrasaab/Documents/BlinkitSharedCart/build/Build/Intermediates.noindex/BlinkitSharedCart.build/Debug-iphonesimulator/BlinkitSharedCart.build/Objects-normal/arm64/ProductDetailView.swiftconstvalues",
+    "dependencies" : "/Users/kindrasaab/Documents/BlinkitSharedCart/build/Build/Intermediates.noindex/BlinkitSharedCart.build/Debug-iphonesimulator/BlinkitSharedCart.build/Objects-normal/arm64/ProductDetailView.d",
+    "diagnostics" : "/Users/kindrasaab/Documents/BlinkitSharedCart/build/Build/Intermediates.noindex/BlinkitSharedCart.build/Debug-iphonesimulator/BlinkitSharedCart.build/Objects-normal/arm64/ProductDetailView.dia",
+    "object" : "/Users/kindrasaab/Documents/BlinkitSharedCart/build/Build/Intermediates.noindex/BlinkitSharedCart.build/Debug-iphonesimulator/BlinkitSharedCart.build/Objects-normal/arm64/ProductDetailView.o",
+    "swift-dependencies" : "/Users/kindrasaab/Documents/BlinkitSharedCart/build/Build/Intermediates.noindex/BlinkitSharedCart.build/Debug-iphonesimulator/BlinkitSharedCart.build/Objects-normal/arm64/ProductDetailView.swiftdeps"
   },
-  "/Users/kindrasaab/Documents/BlinkitSharedCart/BlinkitSharedCart/Components/PrimaryButton.swift" : {
-    "const-values" : "/Users/kindrasaab/Documents/BlinkitSharedCart/build/Build/Intermediates.noindex/BlinkitSharedCart.build/Debug-iphonesimulator/BlinkitSharedCart.build/Objects-normal/arm64/PrimaryButton.swiftconstvalues",
-    "dependencies" : "/Users/kindrasaab/Documents/BlinkitSharedCart/build/Build/Intermediates.noindex/BlinkitSharedCart.build/Debug-iphonesimulator/BlinkitSharedCart.build/Objects-normal/arm64/PrimaryButton.d",
-    "diagnostics" : "/Users/kindrasaab/Documents/BlinkitSharedCart/build/Build/Intermediates.noindex/BlinkitSharedCart.build/Debug-iphonesimulator/BlinkitSharedCart.build/Objects-normal/arm64/PrimaryButton.dia",
-    "object" : "/Users/kindrasaab/Documents/BlinkitSharedCart/build/Build/Intermediates.noindex/BlinkitSharedCart.build/Debug-iphonesimulator/BlinkitSharedCart.build/Objects-normal/arm64/PrimaryButton.o",
-    "swift-dependencies" : "/Users/kindrasaab/Documents/BlinkitSharedCart/build/Build/Intermediates.noindex/BlinkitSharedCart.build/Debug-iphonesimulator/BlinkitSharedCart.build/Objects-normal/arm64/PrimaryButton.swiftdeps"
-  },
-  "/Users/kindrasaab/Documents/BlinkitSharedCart/BlinkitSharedCart/Components/ProductCard.swift" : {
-    "const-values" : "/Users/kindrasaab/Documents/BlinkitSharedCart/build/Build/Intermediates.noindex/BlinkitSharedCart.build/Debug-iphonesimulator/BlinkitSharedCart.build/Objects-normal/arm64/ProductCard.swiftconstvalues",
-    "dependencies" : "/Users/kindrasaab/Documents/BlinkitSharedCart/build/Build/Intermediates.noindex/BlinkitSharedCart.build/Debug-iphonesimulator/BlinkitSharedCart.build/Objects-normal/arm64/ProductCard.d",
-    "diagnostics" : "/Users/kindrasaab/Documents/BlinkitSharedCart/build/Build/Intermediates.noindex/BlinkitSharedCart.build/Debug-iphonesimulator/BlinkitSharedCart.build/Objects-normal/arm64/ProductCard.dia",
-    "object" : "/Users/kindrasaab/Documents/BlinkitSharedCart/build/Build/Intermediates.noindex/BlinkitSharedCart.build/Debug-iphonesimulator/BlinkitSharedCart.build/Objects-normal/arm64/ProductCard.o",
-    "swift-dependencies" : "/Users/kindrasaab/Documents/BlinkitSharedCart/build/Build/Intermediates.noindex/BlinkitSharedCart.build/Debug-iphonesimulator/BlinkitSharedCart.build/Objects-normal/arm64/ProductCard.swiftdeps"
-  },
-  "/Users/kindrasaab/Documents/BlinkitSharedCart/BlinkitSharedCart/Components/ProductImageView.swift" : {
-    "const-values" : "/Users/kindrasaab/Documents/BlinkitSharedCart/build/Build/Intermediates.noindex/BlinkitSharedCart.build/Debug-iphonesimulator/BlinkitSharedCart.build/Objects-normal/arm64/ProductImageView.swiftconstvalues",
-    "dependencies" : "/Users/kindrasaab/Documents/BlinkitSharedCart/build/Build/Intermediates.noindex/BlinkitSharedCart.build/Debug-iphonesimulator/BlinkitSharedCart.build/Objects-normal/arm64/ProductImageView.d",
-    "diagnostics" : "/Users/kindrasaab/Documents/BlinkitSharedCart/build/Build/Intermediates.noindex/BlinkitSharedCart.build/Debug-iphonesimulator/BlinkitSharedCart.build/Objects-normal/arm64/ProductImageView.dia",
-    "object" : "/Users/kindrasaab/Documents/BlinkitSharedCart/build/Build/Intermediates.noindex/BlinkitSharedCart.build/Debug-iphonesimulator/BlinkitSharedCart.build/Objects-normal/arm64/ProductImageView.o",
-    "swift-dependencies" : "/Users/kindrasaab/Documents/BlinkitSharedCart/build/Build/Intermediates.noindex/BlinkitSharedCart.build/Debug-iphonesimulator/BlinkitSharedCart.build/Objects-normal/arm64/ProductImageView.swiftdeps"
+  "/Users/kindrasaab/Documents/BlinkitSharedCart/BlinkitSharedCart/Features/Catalog/ProductListView.swift" : {
+    "const-values" : "/Users/kindrasaab/Documents/BlinkitSharedCart/build/Build/Intermediates.noindex/BlinkitSharedCart.build/Debug-iphonesimulator/BlinkitSharedCart.build/Objects-normal/arm64/ProductListView.swiftconstvalues",
+    "dependencies" : "/Users/kindrasaab/Documents/BlinkitSharedCart/build/Build/Intermediates.noindex/BlinkitSharedCart.build/Debug-iphonesimulator/BlinkitSharedCart.build/Objects-normal/arm64/ProductListView.d",
+    "diagnostics" : "/Users/kindrasaab/Documents/BlinkitSharedCart/build/Build/Intermediates.noindex/BlinkitSharedCart.build/Debug-iphonesimulator/BlinkitSharedCart.build/Objects-normal/arm64/ProductListView.dia",
+    "object" : "/Users/kindrasaab/Documents/BlinkitSharedCart/build/Build/Intermediates.noindex/BlinkitSharedCart.build/Debug-iphonesimulator/BlinkitSharedCart.build/Objects-normal/arm64/ProductListView.o",
+    "swift-dependencies" : "/Users/kindrasaab/Documents/BlinkitSharedCart/build/Build/Intermediates.noindex/BlinkitSharedCart.build/Debug-iphonesimulator/BlinkitSharedCart.build/Objects-normal/arm64/ProductListView.swiftdeps"
   }
 }
