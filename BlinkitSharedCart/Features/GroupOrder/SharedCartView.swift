@@ -101,7 +101,6 @@ struct SharedCartView: View {
                         .background(.white.opacity(0.2), in: Capsule())
                 }
             }
-            MPDebugChip()
         }
         .padding(16).padding(.top, 44)
         .background(LinearGradient.group)

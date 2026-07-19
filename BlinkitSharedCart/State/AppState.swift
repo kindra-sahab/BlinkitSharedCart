@@ -73,6 +73,9 @@ final class AppState {
     /// Host heartbeat: re-broadcasts full cart state every 2s so a missed
     /// packet self-heals and guests can never be left with a stale cart.
     private var stateHeartbeatTask: Task<Void, Never>?
+    /// Link watchdog: pings + detects a zombie MPC link and rebuilds it,
+    /// so a stuck connection never requires killing the app.
+    private var linkWatchdogTask: Task<Void, Never>?
 
     init() {
         multipeer = MultipeerService(displayName: Participant.me.name)
@@ -82,6 +85,27 @@ final class AppState {
         LocalNotifier.shared.configure()
         LocalNotifier.shared.onJoinTapped = { [weak self] in self?.acceptLiveInvite() }
         multipeer.start()
+        startLinkWatchdog()
+    }
+
+    // MARK: - Link watchdog (self-healing transport)
+
+    /// Guests ping every 2.5s while an order is live — pings keep the link warm
+    /// and (with the host's 2s state heartbeat) continuously repair sync.
+    /// NOTE: we deliberately never tear down / recreate the MPC stack — rapid
+    /// churn of advertiser/browser objects crashes CoreFoundation.
+    private func startLinkWatchdog() {
+        linkWatchdogTask?.cancel()
+        linkWatchdogTask = Task { [weak self] in
+            while !Task.isCancelled {
+                try? await Task.sleep(for: .seconds(2.5))
+                guard let self else { return }
+                let active = self.realtime.session?.status == .active
+                if self.isLiveSession && !self.isHost && active {
+                    self.multipeer.send(.ping)
+                }
+            }
+        }
     }
 
     // MARK: - Identity (each phone picks who they are)
@@ -91,11 +115,8 @@ final class AppState {
         var p = participant
         p.isHost = (participant.id == Participant.me.id)   // only the owner identity hosts
         currentUser = p
-        // Restart the transport under the new display name.
-        multipeer.stop()
-        multipeer = MultipeerService(displayName: p.name)
-        wireMultipeer()
-        multipeer.start()
+        // NOTE: the transport is intentionally NOT recreated — identity travels
+        // in message payloads, and churning MPC objects crashes CoreFoundation.
     }
 
     private func wireRealtime() {
@@ -148,6 +169,12 @@ final class AppState {
             if let s = session, s.id == sessionID, s.participant(currentUser.id) != nil { return }
             // Already showing the invite for this session? Ignore.
             if liveInvite?.sessionID == sessionID { return }
+            // A NEW round is starting — drop any leftover finished session so
+            // round 2 begins with a completely clean slate.
+            if let s = session, s.id != sessionID, s.status != .active {
+                realtime.endSession()
+                isLiveSession = false
+            }
             liveInvite = LiveInvite(hostName: host.name, hostEmoji: host.avatarEmoji,
                                     remaining: remaining, sessionID: sessionID)
             LocalNotifier.shared.postGroupInvite(hostName: host.name, remaining: remaining)
@@ -222,6 +249,9 @@ final class AppState {
             realtime.endSession()
             isLiveSession = false
             showSharedCart = false
+
+        case .ping:
+            break   // receiving it already refreshed lastRxDate — that's its job
         }
     }
 

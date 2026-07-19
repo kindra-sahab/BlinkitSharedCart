@@ -28,6 +28,9 @@ final class MultipeerService: NSObject {
     private(set) var lastError: String = ""
     private(set) var rxCount: Int = 0
     private(set) var txCount: Int = 0
+    /// Last time ANY data arrived — used by the link watchdog to detect a
+    /// zombie connection (looks connected, but nothing flows).
+    private(set) var lastRxDate: Date = .now
 
     // Callbacks into the app layer.
     var onReceive: ((SyncMessage) -> Void)?
@@ -56,18 +59,32 @@ final class MultipeerService: NSObject {
         browser.delegate = self
     }
 
+    /// True once stop() has been called — all further work is refused so a
+    /// discarded (rebuilt) service can never fire zombie callbacks or restarts.
+    private var isStopped = false
+    private var restartTask: Task<Void, Never>?
+
     func start() {
+        guard !isStopped else { return }
         advertiser.startAdvertisingPeer()
         browser.startBrowsingForPeers()
     }
 
     func stop() {
+        isStopped = true
+        restartTask?.cancel()
+        onReceive = nil
+        onPeersChanged = nil
+        mcSession.delegate = nil
+        advertiser.delegate = nil
+        browser.delegate = nil
         advertiser.stopAdvertisingPeer()
         browser.stopBrowsingForPeers()
         mcSession.disconnect()
     }
 
     func send(_ message: SyncMessage) {
+        guard !isStopped else { return }
         let peers = mcSession.connectedPeers
         guard !peers.isEmpty else {
             print("[MPC] send \(message.debugLabel) skipped — no peers")
@@ -86,12 +103,36 @@ final class MultipeerService: NSObject {
     }
 
     fileprivate func refreshPeers(_ count: Int) {
+        guard !isStopped else { return }
         connectedCount = count
+        lastRxDate = .now   // fresh link — give the watchdog a clean slate
         onPeersChanged?(count)
         print("[MPC] 🔗 connected peers = \(count)")
+        // Link dropped — force a fresh discovery cycle so the phones re-pair
+        // automatically instead of needing an app restart.
+        if count == 0 { restartDiscovery() }
+    }
+
+    /// Gentle re-discovery after a disconnect: restart ONLY the browser, once,
+    /// after a calm delay. (Aggressively cycling advertiser+browser+session
+    /// objects triggers CoreFoundation type-assert crashes in MPC.)
+    private func restartDiscovery() {
+        guard !isStopped else { return }
+        restartTask?.cancel()
+        restartTask = Task { [weak self] in
+            try? await Task.sleep(for: .seconds(3))
+            guard let self, !self.isStopped, !Task.isCancelled else { return }
+            self.browser.stopBrowsingForPeers()
+            try? await Task.sleep(for: .seconds(1))
+            guard !self.isStopped, !Task.isCancelled else { return }
+            self.browser.startBrowsingForPeers()
+            print("[MPC] 🔄 browser restarted")
+        }
     }
 
     fileprivate func deliver(_ data: Data) {
+        guard !isStopped else { return }
+        lastRxDate = .now
         do {
             let message = try JSONDecoder().decode(SyncMessage.self, from: data)
             lastRx = message.debugLabel

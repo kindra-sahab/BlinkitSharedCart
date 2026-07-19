@@ -26,6 +26,8 @@ enum SyncMessage: Codable {
 
     // Anyone → everyone
     case returnUpdate(ReturnRequest)
+    /// Keepalive so both sides can detect a dead ("zombie") link and self-heal.
+    case ping
 
     var debugLabel: String {
         switch self {
@@ -40,6 +42,7 @@ enum SyncMessage: Codable {
         case .changeQtyIntent: "qty"
         case .browsingIntent: "browsing"
         case .returnUpdate: "return"
+        case .ping: "ping"
         }
     }
 }
