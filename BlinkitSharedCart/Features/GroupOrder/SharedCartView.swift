@@ -14,10 +14,9 @@ struct SharedCartView: View {
     // Checkout must be presented from INSIDE this cover, otherwise a root-level
     // sheet opens hidden behind the full-screen cover.
     @State private var showGroupCheckout = false
-    @State private var path = NavigationPath()
 
     var body: some View {
-        NavigationStack(path: $path) {
+        NavigationStack {
             Group {
                 if let session = app.realtime.session {
                     content(session)
@@ -30,13 +29,6 @@ struct SharedCartView: View {
             .navigationDestination(for: GroupBrowseRoute.self) { _ in GroupBrowseView(app: app) }
             .toolbar(.hidden, for: .navigationBar)
             .sheet(isPresented: $showGroupCheckout) { CheckoutView() }
-            .onAppear {
-                #if DEBUG
-                if ProcessInfo.processInfo.environment["AUTODEMO"] == "1" && path.isEmpty {
-                    path.append(GroupBrowseRoute.browse)
-                }
-                #endif
-            }
         }
     }
 

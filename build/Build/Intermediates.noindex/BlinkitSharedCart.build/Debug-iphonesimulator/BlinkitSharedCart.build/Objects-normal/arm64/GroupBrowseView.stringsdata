@@ -7,7 +7,7 @@
         "key": "Add to group cart",
         "location": {
           "startingColumn": 26,
-          "startingLine": 81
+          "startingLine": 88
         }
       },
       {
@@ -15,7 +15,7 @@
         "key": "%lld items in group cart",
         "location": {
           "startingColumn": 26,
-          "startingLine": 88
+          "startingLine": 95
         }
       }
     ]

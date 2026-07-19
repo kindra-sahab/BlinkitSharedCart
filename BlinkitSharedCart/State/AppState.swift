@@ -68,17 +68,6 @@ final class AppState {
         LocalNotifier.shared.configure()
         LocalNotifier.shared.onJoinTapped = { [weak self] in self?.acceptLiveInvite() }
         multipeer.start()
-
-        #if DEBUG
-        if ProcessInfo.processInfo.environment["AUTODEMO"] == "1" {
-            Task { [weak self] in
-                try? await Task.sleep(for: .seconds(1))
-                guard let self, let milk = MockCatalog.product("p_milk") else { return }
-                self.addToPersonalCart(milk)
-                self.startGroupOrder(inviting: [.rahul, .aman])
-            }
-        }
-        #endif
     }
 
     // MARK: - Identity (each phone picks who they are)

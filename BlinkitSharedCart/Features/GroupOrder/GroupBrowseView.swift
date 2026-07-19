@@ -28,8 +28,13 @@ struct GroupBrowseView: View {
     }
 
     var body: some View {
-        // Read the live cart at body scope so the view re-renders the moment the
-        // shared session changes (locally or from the host's broadcast).
+        // Fine-grained @Observable invalidation for the nested RealtimeService
+        // does NOT fire inside navigationDestination, so we anchor this view's
+        // refresh on the per-second group clock (always ticking during a session)
+        // and on `refreshTick` (bumped by my own taps for an instant update).
+        _ = app.realtime.now
+        _ = refreshTick
+        // Read the live cart at body scope.
         let liveItems: [CartItem] = app.realtime.session?.items ?? []
         var subtotal = 0.0
         for item in liveItems { subtotal += item.lineTotal }
@@ -68,9 +73,9 @@ struct GroupBrowseView: View {
                         ProductCard(
                             product: product,
                             quantity: myQty(product, in: liveItems),
-                            onAdd: { app.addToGroup(product) },
-                            onIncrement: { app.groupChangeProduct(product, delta: 1) },
-                            onDecrement: { app.groupChangeProduct(product, delta: -1) },
+                            onAdd: { app.addToGroup(product); refreshTick += 1 },
+                            onIncrement: { app.groupChangeProduct(product, delta: 1); refreshTick += 1 },
+                            onDecrement: { app.groupChangeProduct(product, delta: -1); refreshTick += 1 },
                             onTap: nil
                         )
                     }
