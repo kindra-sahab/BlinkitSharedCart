@@ -17,11 +17,16 @@ struct SharedCartView: View {
 
     var body: some View {
         NavigationStack {
-            Group {
-                if let session = app.realtime.session {
-                    content(session)
-                } else {
-                    ProgressView()
+            // TimelineView re-reads the live session on a fixed cadence, so the
+            // item cards update reliably even inside a fullScreenCover where
+            // fine-grained @Observable invalidation is unreliable.
+            TimelineView(.periodic(from: .now, by: 0.4)) { _ in
+                Group {
+                    if let session = app.realtime.session {
+                        content(session)
+                    } else {
+                        ProgressView()
+                    }
                 }
             }
             .background(Palette.background)
@@ -124,7 +129,12 @@ struct SharedCartView: View {
     // MARK: Items grouped by participant
 
     private func itemsSection(_ session: GroupSession) -> some View {
-        VStack(alignment: .leading, spacing: 14) {
+        // Safety net: items whose owner isn't (yet) in participants must still
+        // render — never let a contributor's cards be invisible.
+        let knownIDs = Set(session.participants.map { $0.id })
+        let orphanGroups = Dictionary(grouping: session.items.filter { !knownIDs.contains($0.addedByID) },
+                                      by: { $0.addedByID })
+        return VStack(alignment: .leading, spacing: 14) {
             ForEach(session.participants) { p in
                 let items = session.items(addedBy: p.id)
                 if !items.isEmpty {
@@ -151,6 +161,34 @@ struct SharedCartView: View {
                                 canEdit: editable,
                                 showAttribution: false,
                                 isMe: p.id == app.currentUser.id,
+                                onIncrement: { app.groupChangeQuantity(itemID: item.id, delta: 1) },
+                                onDecrement: { app.groupChangeQuantity(itemID: item.id, delta: -1) }
+                            )
+                        }
+                    }
+                }
+            }
+
+            // Orphan groups (owner not registered yet) — render by stored name.
+            ForEach(orphanGroups.keys.sorted(), id: \.self) { ownerID in
+                if let items = orphanGroups[ownerID], !items.isEmpty {
+                    VStack(alignment: .leading, spacing: 8) {
+                        HStack(spacing: 8) {
+                            Text("\(items[0].addedByName)'s items")
+                                .font(.system(size: 14, weight: .heavy, design: .rounded))
+                                .foregroundStyle(Palette.ink)
+                            Spacer()
+                            Text(rupees(items.reduce(0) { $0 + $1.lineTotal }))
+                                .font(.system(size: 13, weight: .bold, design: .rounded))
+                                .foregroundStyle(Palette.inkSecondary)
+                        }
+                        ForEach(items) { item in
+                            CartItemRow(
+                                item: item,
+                                addedBy: nil,
+                                canEdit: app.realtime.canEdit(item, as: app.currentUser),
+                                showAttribution: true,
+                                isMe: item.addedByID == app.currentUser.id,
                                 onIncrement: { app.groupChangeQuantity(itemID: item.id, delta: 1) },
                                 onDecrement: { app.groupChangeQuantity(itemID: item.id, delta: -1) }
                             )

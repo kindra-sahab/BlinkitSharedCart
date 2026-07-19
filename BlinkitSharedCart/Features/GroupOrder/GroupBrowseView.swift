@@ -9,12 +9,8 @@
 import SwiftUI
 
 struct GroupBrowseView: View {
-    // Passed explicitly (not @Environment) so observation fires reliably even
-    // though this view is presented via navigationDestination.
     @Bindable var app: AppState
     @State private var selectedCategory: String = MockCatalog.categories.first!.id
-    /// Bumped on my own taps to force an instant refresh (see note in `body`).
-    @State private var refreshTick = 0
 
     private var products: [Product] { MockCatalog.products(in: selectedCategory) }
 
@@ -28,54 +24,35 @@ struct GroupBrowseView: View {
     }
 
     var body: some View {
-        // Fine-grained @Observable invalidation for the nested RealtimeService
-        // does NOT fire inside navigationDestination, so we anchor this view's
-        // refresh on the per-second group clock (always ticking during a session)
-        // and on `refreshTick` (bumped by my own taps for an instant update).
-        _ = app.realtime.now
-        _ = refreshTick
-        // Read the live cart at body scope.
+        // TimelineView re-reads the live cart every 0.4s, so counters and the
+        // total bar stay correct even where @Observable invalidation is unreliable
+        // (navigationDestination). Own taps still reflect within 0.4s.
+        TimelineView(.periodic(from: .now, by: 0.4)) { _ in
+            gridContent
+        }
+        .background(Palette.background)
+        .navigationTitle("Add to group cart")
+        .navigationBarTitleDisplayMode(.inline)
+        .onAppear { app.setGroupBrowsing(true) }
+        .onDisappear { app.setGroupBrowsing(false) }
+    }
+
+    private var gridContent: some View {
         let liveItems: [CartItem] = app.realtime.session?.items ?? []
         var subtotal = 0.0
         for item in liveItems { subtotal += item.lineTotal }
 
         return VStack(spacing: 0) {
-            // Category selector
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 10) {
-                    ForEach(MockCatalog.categories) { cat in
-                        let isSel = cat.id == selectedCategory
-                        Button {
-                            Haptics.tap()
-                            withAnimation(.spring) { selectedCategory = cat.id }
-                        } label: {
-                            HStack(spacing: 5) {
-                                Text(cat.emoji)
-                                Text(cat.name.components(separatedBy: " ").first ?? cat.name)
-                                    .font(.system(size: 13, weight: .bold, design: .rounded))
-                            }
-                            .foregroundStyle(isSel ? .white : Palette.ink)
-                            .padding(.horizontal, 12).frame(height: 38)
-                            .background(isSel ? AnyShapeStyle(LinearGradient.group) : AnyShapeStyle(Color.white),
-                                        in: Capsule())
-                            .overlay(Capsule().stroke(Palette.hairline, lineWidth: isSel ? 0 : 1))
-                        }
-                        .buttonStyle(.plain)
-                    }
-                }
-                .padding(.horizontal, 16).padding(.vertical, 10)
-            }
-            .background(.white)
-
+            categorySelector
             ScrollView(showsIndicators: false) {
                 LazyVGrid(columns: [GridItem(.flexible(), spacing: 12), GridItem(.flexible(), spacing: 12)], spacing: 12) {
                     ForEach(products) { product in
                         ProductCard(
                             product: product,
                             quantity: myQty(product, in: liveItems),
-                            onAdd: { app.addToGroup(product); refreshTick += 1 },
-                            onIncrement: { app.groupChangeProduct(product, delta: 1); refreshTick += 1 },
-                            onDecrement: { app.groupChangeProduct(product, delta: -1); refreshTick += 1 },
+                            onAdd: { app.addToGroup(product) },
+                            onIncrement: { app.groupChangeProduct(product, delta: 1) },
+                            onDecrement: { app.groupChangeProduct(product, delta: -1) },
                             onTap: nil
                         )
                     }
@@ -85,10 +62,6 @@ struct GroupBrowseView: View {
             }
         }
         .background(Palette.background)
-        .navigationTitle("Add to group cart")
-        .navigationBarTitleDisplayMode(.inline)
-        .onAppear { app.setGroupBrowsing(true) }
-        .onDisappear { app.setGroupBrowsing(false) }
         .safeAreaInset(edge: .bottom) {
             if !liveItems.isEmpty {
                 HStack {
@@ -99,14 +72,40 @@ struct GroupBrowseView: View {
                     Text(rupees(subtotal))
                         .font(.system(size: 15, weight: .heavy, design: .rounded))
                         .foregroundStyle(.white)
-                        .contentTransition(.numericText())
                 }
                 .padding(.horizontal, 16).padding(.vertical, 12)
                 .background(LinearGradient.group)
                 .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
                 .padding(12)
-                .animation(.spring(response: 0.3), value: liveItems.count)
             }
         }
+    }
+
+    private var categorySelector: some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 10) {
+                ForEach(MockCatalog.categories) { cat in
+                    let isSel = cat.id == selectedCategory
+                    Button {
+                        Haptics.tap()
+                        withAnimation(.spring) { selectedCategory = cat.id }
+                    } label: {
+                        HStack(spacing: 5) {
+                            Text(cat.emoji)
+                            Text(cat.name.components(separatedBy: " ").first ?? cat.name)
+                                .font(.system(size: 13, weight: .bold, design: .rounded))
+                        }
+                        .foregroundStyle(isSel ? .white : Palette.ink)
+                        .padding(.horizontal, 12).frame(height: 38)
+                        .background(isSel ? AnyShapeStyle(LinearGradient.group) : AnyShapeStyle(Color.white),
+                                    in: Capsule())
+                        .overlay(Capsule().stroke(Palette.hairline, lineWidth: isSel ? 0 : 1))
+                    }
+                    .buttonStyle(.plain)
+                }
+            }
+            .padding(.horizontal, 16).padding(.vertical, 10)
+        }
+        .background(.white)
     }
 }

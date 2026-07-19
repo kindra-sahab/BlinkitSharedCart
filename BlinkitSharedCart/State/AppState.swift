@@ -18,6 +18,7 @@ struct LiveInvite: Identifiable, Equatable {
     let hostName: String
     let hostEmoji: String
     let remaining: Double
+    let sessionID: String
 }
 
 @Observable
@@ -69,6 +70,9 @@ final class AppState {
 
     private var trackingTask: Task<Void, Never>?
     private var hostAutoPlaceTask: Task<Void, Never>?
+    /// Host heartbeat: re-broadcasts full cart state every 2s so a missed
+    /// packet self-heals and guests can never be left with a stale cart.
+    private var stateHeartbeatTask: Task<Void, Never>?
 
     init() {
         multipeer = MultipeerService(displayName: Participant.me.name)
@@ -129,19 +133,23 @@ final class AppState {
     }
 
     private func resendLiveInviteToPeers() {
-        guard isLiveSession, isHost, let s = session, let host = s.host else { return }
+        // Only re-invite while the order is still being collected — never after
+        // it's been placed/expired (which caused stale invite popups).
+        guard isLiveSession, isHost, let s = session, s.status == .active, let host = s.host else { return }
         multipeer.send(.invite(host: host, remaining: s.bill.amountToFreeDelivery, sessionID: s.id))
         multipeer.send(.state(s))
     }
 
     private func handleSync(_ message: SyncMessage) {
         switch message {
-        case .invite(let host, let remaining, _):
+        case .invite(let host, let remaining, let sessionID):
             guard !isHost else { return }
-            // Already part of this order, or already showing the invite? Ignore re-sends.
-            if isLiveSession, let s = session, s.participant(currentUser.id) != nil { return }
-            if liveInvite != nil { return }
-            liveInvite = LiveInvite(hostName: host.name, hostEmoji: host.avatarEmoji, remaining: remaining)
+            // Already joined THIS session (any status)? Ignore re-broadcasts of it.
+            if let s = session, s.id == sessionID, s.participant(currentUser.id) != nil { return }
+            // Already showing the invite for this session? Ignore.
+            if liveInvite?.sessionID == sessionID { return }
+            liveInvite = LiveInvite(hostName: host.name, hostEmoji: host.avatarEmoji,
+                                    remaining: remaining, sessionID: sessionID)
             LocalNotifier.shared.postGroupInvite(hostName: host.name, remaining: remaining)
             pushNotification(.init(
                 kind: .groupInvite,
@@ -157,21 +165,28 @@ final class AppState {
             broadcastStateIfHost()
 
         case .state(let session):
+            // Host is authoritative — it must NEVER apply an incoming state
+            // (a stale third device broadcasting old state was corrupting the
+            // host session and wiping joined participants).
+            guard !isHost else { return }
             isLiveSession = true
             realtime.applyRemoteState(session)
 
         case .addItemIntent(let productID, let by):
             guard isLiveSession, isHost, let product = MockCatalog.product(productID) else { return }
+            ensureParticipant(by)
             realtime.addItem(product, by: by)
             broadcastStateIfHost()
 
         case .changeProductIntent(let productID, let delta, let by):
             guard isLiveSession, isHost, let product = MockCatalog.product(productID) else { return }
+            ensureParticipant(by)
             realtime.changeProductQuantity(product, by: by, delta: delta)
             broadcastStateIfHost()
 
         case .changeQtyIntent(let itemID, let delta, let by):
             guard isLiveSession, isHost else { return }
+            ensureParticipant(by)
             realtime.changeQuantity(itemID: itemID, delta: delta, by: by)
             broadcastStateIfHost()
 
@@ -183,6 +198,7 @@ final class AppState {
         case .orderPlaced(let order):
             guard !isHost else { return }
             realtime.markPlaced()
+            liveInvite = nil            // clear any lingering invite for this session
             activeOrder = order
             showSharedCart = false
             showOrderConfirmed = true
@@ -214,6 +230,13 @@ final class AppState {
         multipeer.send(.state(s))
     }
 
+    /// If a message arrives from someone not yet in the session, register them —
+    /// so even a lost joinRequest can never make a contributor invisible.
+    private func ensureParticipant(_ p: Participant) {
+        guard realtime.session?.participant(p.id) == nil else { return }
+        realtime.join(p, autoContribute: false)
+    }
+
     // MARK: - Live group order (host)
 
     /// Host starts a real, cross-device group order and invites nearby phones.
@@ -229,8 +252,26 @@ final class AppState {
         let remaining = realtime.session?.bill.amountToFreeDelivery ?? 0
         multipeer.send(.invite(host: host, remaining: remaining, sessionID: realtime.session?.id ?? ""))
         broadcastStateIfHost()
+        startStateHeartbeat()
         showInviteSheet = false
         showSharedCart = true
+    }
+
+    /// Host re-broadcasts the full state every 2s while collecting items, so
+    /// even a dropped packet can never leave a guest with a stale cart.
+    private func startStateHeartbeat() {
+        stateHeartbeatTask?.cancel()
+        stateHeartbeatTask = Task { [weak self] in
+            while !Task.isCancelled {
+                try? await Task.sleep(for: .seconds(2))
+                guard let self else { return }
+                guard let s = self.realtime.session, s.status == .active, self.isHost else {
+                    self.stateHeartbeatTask = nil
+                    return
+                }
+                self.multipeer.send(.state(s))
+            }
+        }
     }
 
     // MARK: - Live group order (guest)
